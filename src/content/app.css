@@ -1,3 +1,19 @@
+/*
+ * HaikuEmail's own layer, on top of Radix Themes.
+ *
+ * Two typefaces, both already on the machine — a content script cannot fetch a
+ * webfont (Gmail's CSP blocks it) and embedding one would add ~100KB per weight
+ * for no real gain over what macOS and Windows already ship:
+ *
+ *   sans  — the interface. system-ui first, so it matches the OS.
+ *   serif — the poems and the "Haiku" half of the wordmark. ui-serif is New York
+ *           on Apple platforms; Georgia is the fallback everywhere else.
+ *
+ * The palette keeps the warm sand greys and adds one cool note: a muted
+ * slate blue, used only where something should register as deliberate — the
+ * mark, the progress bar, the selected segment, a focus ring.
+ */
+
 :host {
   all: initial;
   position: fixed;
@@ -7,21 +23,216 @@
   overflow-y: auto;
   overflow-x: hidden;
   visibility: visible;
-  background: var(--color-background, #faf9f7);
-  font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif);
+
+  --hk-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --hk-serif: ui-serif, 'New York', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+
+  --hk-accent: #5a7183;
+  --hk-accent-quiet: #8fa2b1;
+  --hk-ink-soft: #8a8a82;
+  --hk-line-strong: #c9c8c1;
+  --hk-line: #e6e4de;
+  --hk-page: #faf9f7;
+  --hk-mark-bg: #46596b;
+  --hk-mark-ink: #f7f5f1;
+
+  background: var(--hk-page);
+  font-family: var(--hk-sans);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    --hk-accent: #8fa8bd;
+    --hk-accent-quiet: #64798a;
+    --hk-ink-soft: #7c7c74;
+    --hk-line-strong: #46463f;
+    --hk-line: #2a2a26;
+    --hk-page: #111110;
+    --hk-mark-bg: #8ba3b7;
+    --hk-mark-ink: #12161a;
+  }
 }
 
 .radix-themes {
   min-height: 100vh;
+  /* Radix's own default font, replaced wholesale so every component inherits. */
+  --default-font-family: var(--hk-sans);
+  --heading-font-family: var(--hk-sans);
 }
 
+/* ─── Wordmark ─────────────────────────────────────────────────────────────
+ * "Haiku" in the serif the poems use, "Email" in the interface sans: the same
+ * split the app makes between the poem and the mail.
+ */
+.hk-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  font-size: 1.0625rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.hk-wordmark-serif {
+  font-family: var(--hk-serif);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: var(--gray-12);
+}
+
+.hk-wordmark-sans {
+  font-family: var(--hk-sans);
+  font-weight: 420;
+  letter-spacing: 0.005em;
+  color: var(--hk-ink-soft);
+}
+
+/* ─── The poem ─────────────────────────────────────────────────────────────
+ * Set in the serif, a little large, with the generous leading a haiku wants.
+ * `text-wrap: balance` keeps a line that does have to wrap from leaving one
+ * orphaned word underneath it.
+ */
 /*
- * Radix's scroll-area viewport wraps its children in a box that sizes to the
- * *content*, not to the viewport. One `truncate`d line (white-space: nowrap)
- * therefore makes the whole list as wide as the longest snippet — measured at
- * 871px inside a 680px viewport — so nothing ever ellipsizes and the rows run
- * off underneath the overlay scrollbar and get clipped mid-word.
+ * `margin: 0` is doing real work: Radix's reset does not reach a bare <p>
+ * inside the shadow root, so the browser's default 1em margins were adding
+ * ~24px between lines on top of the leading and pulling the three apart into
+ * three separate sentences. Leading alone should set the pace.
+ */
+.haiku-line {
+  margin: 0;
+  font-family: var(--hk-serif);
+  font-weight: 400;
+  font-size: clamp(1.25rem, 1.05rem + 0.6vw, 1.5rem);
+  line-height: 1.72;
+  letter-spacing: -0.003em;
+  color: var(--gray-12);
+  text-wrap: balance;
+  animation: hk-line-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Each line arrives in its own time, like being read aloud. */
+@keyframes hk-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hk-attribution {
+  margin: 0;
+  font-family: var(--hk-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--hk-ink-soft);
+  animation: hk-line-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* The disclosure, quieter than the poet's name but never hidden. */
+.hk-ai-note {
+  color: var(--hk-accent-quiet);
+}
+
+.hk-ai-note::before {
+  content: '·';
+  margin: 0 0.45em;
+  color: var(--hk-line-strong);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .haiku-line,
+  .hk-attribution {
+    animation: none;
+  }
+}
+
+/* ─── Accents ──────────────────────────────────────────────────────────────
+ * The grey blue, applied by hand rather than by switching Radix's accent, so it
+ * lands on four things and nowhere else.
+ */
+.rt-ProgressIndicator {
+  background: var(--hk-accent) !important;
+}
+
+.rt-SegmentedControlIndicator::before {
+  box-shadow: inset 0 0 0 1px var(--hk-line-strong);
+}
+
+.rt-SegmentedControlItem[data-state='on'] {
+  color: var(--hk-accent);
+}
+
+:host *:focus-visible {
+  outline: 2px solid var(--hk-accent-quiet);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* ─── Result rows ──────────────────────────────────────────────────────────
+ * A row is a click target, so it gets a hover state: a faint ground plus the
+ * subject in the accent, which is enough to say "this one" without moving
+ * anything.
+ *
+ * No negative margin and no left rule — the scroll viewport clips at its own
+ * edge, so an inset flourish at `left: -12px` simply never appears. Keeping the
+ * row flush also keeps every row aligned with the rules above and below it.
+ */
+.hk-row {
+  cursor: pointer;
+  padding: 0.7rem 0.5rem;
+  border-radius: 6px;
+  transition: background-color 120ms ease;
+}
+
+.hk-row:hover {
+  background: var(--gray-a2);
+}
+
+.hk-subject {
+  transition: color 120ms ease;
+}
+
+.hk-row:hover .hk-subject {
+  color: var(--hk-accent);
+}
+
+/* ─── Reading ──────────────────────────────────────────────────────────────
+ * The subject and the plain-text body are set in the serif too. It is the same
+ * argument as the poems: this is prose to be read, not interface to be operated,
+ * and a measure of around 70 characters is what keeps the eye from losing its
+ * line. (The "Original" view is the sender's own CSS and is left alone.)
+ */
+.hk-subject-heading {
+  font-family: var(--hk-serif) !important;
+  font-weight: 500;
+  font-size: 1.3125rem;
+  letter-spacing: -0.008em;
+  line-height: 1.35;
+}
+
+.hk-plain-body {
+  max-width: 68ch;
+}
+
+.hk-plain-line {
+  font-family: var(--hk-serif);
+  font-size: 1.0625rem;
+  line-height: 1.68;
+  letter-spacing: -0.002em;
+  white-space: pre-wrap;
+}
+
+/* ─── Radix ScrollArea ─────────────────────────────────────────────────────
+ * Its viewport wraps children in a box that sizes to the *content*, not to the
+ * viewport. One `truncate`d line (white-space: nowrap) therefore makes the whole
+ * list as wide as the longest snippet — measured at 871px inside a 680px
+ * viewport — so nothing ever ellipsizes and the rows run off underneath the
+ * overlay scrollbar and get clipped mid-word.
  *
  * Pinning that wrapper to the viewport width restores truncation, which in turn
  * lets the padding on the list actually keep the scrollbar off the text.
@@ -38,29 +249,8 @@
   min-width: 0;
 }
 
-/* Each line of the haiku arrives in its own time, like being read aloud. */
-@keyframes qm-line-in {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.haiku-line {
-  animation: qm-line-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .haiku-line {
-    animation: none;
-  }
-}
-
 code {
-  font-size: 0.92em;
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+  font-size: 0.85em;
   color: var(--gray-12);
 }

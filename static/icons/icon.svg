@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!--
+    The HaikuEmail mark: three lines in 5-7-5 proportion, held in a rounded
+    square that stands in for the envelope. The PNGs beside this file are
+    rendered from it by `npm run icons`.
+
+    An earlier version outlined the envelope as well, and at 32px the outline
+    and the lines merged into one grey blob. 16px is the size that actually has
+    to work, so the mark is now solid: high contrast, three strokes, nothing
+    else, with the gaps wider than the strokes so they survive downsampling.
+  -->
+  <rect width="128" height="128" rx="30" fill="#46596b"/>
+  <g stroke="#f7f5f1" stroke-width="10" stroke-linecap="round">
+    <path d="M44 42h40"/>
+    <path d="M36 64h56"/>
+    <path d="M44 86h40"/>
+  </g>
+</svg>

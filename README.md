@@ -1,4 +1,4 @@
-# Quiet Mail
+# HaikuEmail
 
 A Chrome extension that masks Gmail and gives you a search-only reader in its
 place. Nothing is shown until you ask for something, and you can't ask for
@@ -11,7 +11,8 @@ at `document_start`.
 
 1. **Mask.** `mask.css` sets `body { visibility: hidden }` before Gmail paints,
    so there is never a visible frame of inbox. The tab title and favicon — which
-   leak unread counts — are pinned to "Quiet Mail" by a `MutationObserver`.
+   leak unread counts — are replaced by a `MutationObserver` with "HaikuEmail"
+   and this extension's own mark, so the tab stops being a notification.
 2. **Still readable.** Gmail is only *invisible*, not blocked: it loads, signs in
    and renders normally underneath. The reader therefore needs no OAuth, no API
    key and no network call of its own — it reads the real Gmail DOM in the same
@@ -55,6 +56,31 @@ Two dev-only query params, both deliberately unreachable on `mail.google.com`:
 `?fast` shortens the timer to 2s, and `?haiku=<0-156>` pins the draw to one
 haiku so a specific one can be looked at on purpose.
 
+## Look and feel
+
+Two typefaces, both already on the machine — a content script cannot fetch a
+webfont (Gmail's CSP blocks it), and embedding one would cost ~100KB a weight
+for no gain over what the OS ships:
+
+- **sans** (`system-ui`) for the interface, so it matches the desktop.
+- **serif** (`ui-serif` → New York on Apple platforms, Georgia elsewhere) for
+  everything that is prose to be read rather than interface to be operated: the
+  poems, the "Haiku" half of the wordmark, and message subjects and plain-text
+  bodies, set to a ~70-character measure.
+
+The palette keeps the warm sand greys and adds one cool note — a muted slate
+blue, applied by hand rather than by switching Radix's accent, so it lands on
+four things and nowhere else: the mark, the progress bar, the selected segment,
+and focus rings. Tokens are defined for light and dark in `src/content/app.css`.
+
+The mark is three lines in 5-7-5 proportion inside a rounded square that stands
+in for the envelope — the two halves of the name in one shape. It lives twice:
+as JSX in `src/app/Logo.tsx` (header and favicon) and as `static/icons/icon.svg`
+(the extension icons). `npm run icons` re-renders the PNGs with headless Chrome.
+An earlier version outlined the envelope too, and at 32px the outline and the
+lines merged into one grey blob; 16px is the size that has to work, so the mark
+is solid, with the gaps wider than the strokes.
+
 ## The wait
 
 The 30 seconds are given to a haiku, drawn at random from the 157 in
@@ -74,7 +100,9 @@ Two sets, and the distinction is a licensing one:
   So these renderings were made here, from the originals. Each carries the
   romaji of its source in the `romaji` field — not displayed, but recorded so any
   translation can be checked instead of taken on trust (it rides along in the
-  attribution's `title` attribute). They follow the sense rather than forcing
+  attribution's `title` attribute). Each is labelled **AI translation** beside
+  the poet's name, because a reader deserves to know the English is machine-made
+  rather than a scholar's. They follow the sense rather than forcing
   5-7-5: Japanese counts *on*, not syllables, and padding a translation out to
   fit the shape is how you end up with a poem the poet did not write.
 

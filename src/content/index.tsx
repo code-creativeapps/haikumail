@@ -3,10 +3,11 @@ import { createRoot, type Root } from 'react-dom/client'
 import themeCss from '@radix-ui/themes/styles.css?inline'
 import appCss from './app.css?inline'
 import App from '../app/App'
+import { FAVICON_SVG } from '../app/Logo'
 import { maskTabIdentity } from '../lib/gmail'
 
-const HOST_ID = 'quiet-mail-root'
-const MASKED_TITLE = 'Quiet Mail'
+const HOST_ID = 'haiku-email-root'
+const MASKED_TITLE = 'HaikuEmail'
 
 /**
  * Mount point: appended to <html>, not <body>. `mask.css` hides <body>, so
@@ -35,7 +36,7 @@ let unmasked = false
 
 function start() {
   if (unmasked || document.getElementById(HOST_ID)) return
-  maskTabIdentity(MASKED_TITLE)
+  maskTabIdentity(MASKED_TITLE, FAVICON_SVG)
 
   const { host, root } = mount()
 

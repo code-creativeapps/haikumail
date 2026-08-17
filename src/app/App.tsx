@@ -16,6 +16,7 @@ import {
 } from '@radix-ui/themes'
 import { closeThread, openThread, search, type Message, type Row } from '../lib/gmail'
 import { pickHaiku } from './haikus'
+import { LogoMark, Wordmark } from './Logo'
 import { useCoolDown } from './useCoolDown'
 
 /**
@@ -97,11 +98,12 @@ export default function App({ onUnmask }: { onUnmask: () => void }) {
 
 function Masthead({ locked }: { locked: boolean }) {
   return (
-    <Flex align="center" justify="between" mb="6">
-      <Heading size="4" weight="medium" style={{ letterSpacing: '-0.01em' }}>
-        Quiet Mail
-      </Heading>
-      <Badge color="gray" variant="soft" radius="full">
+    <Flex align="center" justify="between" mb="7">
+      <Flex align="center" gap="2">
+        <LogoMark />
+        <Wordmark />
+      </Flex>
+      <Badge color="gray" variant="soft" radius="full" size="1">
         {locked ? 'settling' : 'search only'}
       </Badge>
     </Flex>
@@ -119,35 +121,25 @@ function CoolDown({ remaining, progress }: { remaining: number; progress: number
 
   return (
     <Box>
-      <Box style={{ minHeight: '11rem' }}>
+      <Box style={{ minHeight: '10.5rem' }}>
         {haiku.lines.map((line, i) => (
-          <Text
-            as="p"
-            key={i}
-            size="5"
-            weight="light"
-            className="haiku-line"
-            style={{ lineHeight: 1.9, animationDelay: `${i * 260}ms` }}
-          >
+          <p key={i} className="haiku-line" style={{ animationDelay: `${i * 260}ms` }}>
             {line}
-          </Text>
+          </p>
         ))}
 
         {/* Only translations carry a poet; the originals stay unsigned. The
             romaji rides along in `title` so the source can be checked without
             putting a second alphabet on a screen meant to be calm. */}
         {haiku.poet && (
-          <Text
-            as="p"
-            size="1"
-            color="gray"
-            mt="4"
-            className="haiku-line"
+          <p
+            className="hk-attribution"
             title={haiku.romaji}
-            style={{ animationDelay: `${haiku.lines.length * 260}ms` }}
+            style={{ animationDelay: `${haiku.lines.length * 260}ms`, marginTop: '1.35rem' }}
           >
             {haiku.poet}
-          </Text>
+            <span className="hk-ai-note">AI translation</span>
+          </p>
         )}
       </Box>
 
@@ -233,23 +225,35 @@ function Results({ rows, onOpen }: { rows: Row[]; onOpen: (row: Row) => void }) 
               <Box
                 role="button"
                 tabIndex={0}
+                className="hk-row"
                 onClick={() => onOpen(row)}
                 onKeyDown={(e) => e.key === 'Enter' && onOpen(row)}
-                style={{ cursor: 'pointer', padding: '12px 4px' }}
               >
                 <Flex justify="between" gap="4" align="baseline">
-                  <Text size="2" weight={row.unread ? 'bold' : 'regular'} truncate>
+                  <Text
+                    size="2"
+                    weight={row.unread ? 'medium' : 'regular'}
+                    color={row.unread ? undefined : 'gray'}
+                    truncate
+                  >
                     {row.sender}
                   </Text>
                   <Text size="1" color="gray" style={{ whiteSpace: 'nowrap' }}>
                     {row.date}
                   </Text>
                 </Flex>
-                <Text as="p" size="2" mt="1" truncate>
+                <Text
+                  as="p"
+                  size="2"
+                  mt="1"
+                  truncate
+                  className="hk-subject"
+                  style={{ letterSpacing: '-0.005em' }}
+                >
                   {row.subject}
                 </Text>
                 {row.snippet && (
-                  <Text as="p" size="1" color="gray" mt="1" truncate>
+                  <Text as="p" size="1" color="gray" mt="1" truncate style={{ opacity: 0.85 }}>
                     {row.snippet}
                   </Text>
                 )}
@@ -262,7 +266,7 @@ function Results({ rows, onOpen }: { rows: Row[]; onOpen: (row: Row) => void }) 
   )
 }
 
-const VIEW_KEY = 'quiet-mail:view'
+const VIEW_KEY = 'haiku-email:view'
 type ViewMode = 'plain' | 'rich'
 
 function Reader({ message, onBack }: { message: Message; onBack: () => void }) {
@@ -297,7 +301,7 @@ function Reader({ message, onBack }: { message: Message; onBack: () => void }) {
       <Card mt="4" variant="surface">
         {/* Same gutter as the scrolling body below it. */}
         <Box pr="4">
-          <Heading size="3" weight="medium" mb="1">
+          <Heading size="3" weight="medium" mb="1" className="hk-subject-heading">
             {message.subject}
           </Heading>
           <Text as="p" size="1" color="gray" mb="4">
@@ -306,12 +310,12 @@ function Reader({ message, onBack }: { message: Message; onBack: () => void }) {
           <Separator size="4" mb="4" />
         </Box>
         <ScrollArea type="hover" scrollbars="vertical" style={{ maxHeight: '52vh' }}>
-          <Box pr="4">
+          <Box pr="4" className={showRich ? undefined : 'hk-plain-body'}>
             {showRich ? (
               <RichBody content={message.content!} />
             ) : (
               paragraphs.map((p, i) => (
-                <Text as="p" size="2" key={i} mb="3" style={{ whiteSpace: 'pre-wrap', lineHeight: 1.6 }}>
+                <Text as="p" key={i} mb="3" className="hk-plain-line">
                   {p}
                 </Text>
               ))

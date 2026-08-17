@@ -17,6 +17,10 @@ export default defineConfig({
         for (const f of ['manifest.json', 'mask.css']) {
           copyFileSync(`static/${f}`, `dist/${f}`)
         }
+        mkdirSync('dist/icons', { recursive: true })
+        for (const size of [16, 32, 48, 128]) {
+          copyFileSync(`static/icons/icon-${size}.png`, `dist/icons/icon-${size}.png`)
+        }
       },
     },
   ],

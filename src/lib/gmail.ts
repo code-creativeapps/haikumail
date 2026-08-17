@@ -325,14 +325,28 @@ export function closeThread(query: string) {
 
 /**
  * Gmail leaks unread counts through the tab title and the favicon. Both are
- * compulsion triggers, so we hold them still for as long as the mask is up.
+ * compulsion triggers, so we hold them still for as long as the mask is up —
+ * and rather than leaving the tab blank, we fly our own flag there.
  */
-export function maskTabIdentity(title: string) {
+export function maskTabIdentity(title: string, faviconSvg: string) {
+  const href = `data:image/svg+xml;utf8,${encodeURIComponent(faviconSvg)}`
+  const OURS = 'data-haiku-email-icon'
+
   const apply = () => {
     if (document.title !== title) document.title = title
+
     document
-      .querySelectorAll<HTMLLinkElement>('link[rel~="icon"]')
+      .querySelectorAll<HTMLLinkElement>(`link[rel~="icon"]:not([${OURS}])`)
       .forEach((l) => l.parentNode?.removeChild(l))
+
+    if (!document.head?.querySelector(`link[${OURS}]`)) {
+      const link = document.createElement('link')
+      link.rel = 'icon'
+      link.type = 'image/svg+xml'
+      link.href = href
+      link.setAttribute(OURS, '')
+      document.head?.append(link)
+    }
   }
   apply()
   const observer = new MutationObserver(apply)

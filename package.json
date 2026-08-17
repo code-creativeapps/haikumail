@@ -1,12 +1,13 @@
 {
-  "name": "emailfilter",
+  "name": "haikuemail",
   "version": "0.1.0",
   "private": true,
-  "description": "Masks Gmail behind a calm, search-only reader.",
+  "description": "Masks Gmail behind a calm, search-only reader. A haiku holds the first 30 seconds.",
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "dev": "vite build --watch"
+    "dev": "vite build --watch",
+    "icons": "node scripts/render-icons.mjs"
   },
   "dependencies": {
     "@radix-ui/themes": "^3.3.0",
