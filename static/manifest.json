@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Quiet Mail",
+  "version": "0.1.0",
+  "description": "Masks Gmail behind a calm, search-only reader with a 30 second cooling-off timer.",
+  "permissions": ["storage"],
+  "host_permissions": ["https://mail.google.com/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["content.js"],
+      "css": ["mask.css"],
+      "run_at": "document_start",
+      "all_frames": false
+    }
+  ]
+}

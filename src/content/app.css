@@ -1,0 +1,66 @@
+:host {
+  all: initial;
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
+  visibility: visible;
+  background: var(--color-background, #faf9f7);
+  font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+}
+
+.radix-themes {
+  min-height: 100vh;
+}
+
+/*
+ * Radix's scroll-area viewport wraps its children in a box that sizes to the
+ * *content*, not to the viewport. One `truncate`d line (white-space: nowrap)
+ * therefore makes the whole list as wide as the longest snippet — measured at
+ * 871px inside a 680px viewport — so nothing ever ellipsizes and the rows run
+ * off underneath the overlay scrollbar and get clipped mid-word.
+ *
+ * Pinning that wrapper to the viewport width restores truncation, which in turn
+ * lets the padding on the list actually keep the scrollbar off the text.
+ */
+.rt-ScrollAreaViewport > * {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* A flex item only truncates if it is allowed to shrink below its content. */
+.rt-ScrollAreaViewport .rt-Flex > * {
+  min-width: 0;
+}
+
+/* Each line of the haiku arrives in its own time, like being read aloud. */
+@keyframes qm-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.haiku-line {
+  animation: qm-line-in 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .haiku-line {
+    animation: none;
+  }
+}
+
+code {
+  font-size: 0.92em;
+  color: var(--gray-12);
+}

@@ -1,0 +1,22 @@
+/*
+ * The mask. Injected at document_start so there is never a frame of visible
+ * Gmail. Gmail still loads, renders and lays out normally underneath — it is
+ * only invisible — which is what lets us read and drive it from the tab.
+ *
+ * Our own UI is mounted on a node appended to <html>, outside <body>, so it is
+ * unaffected by the rule below.
+ */
+html {
+  background: #faf9f7 !important;
+  overflow: hidden !important;
+}
+
+body {
+  visibility: hidden !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    background: #111110 !important;
+  }
+}
