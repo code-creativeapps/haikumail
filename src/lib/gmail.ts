@@ -10,6 +10,8 @@
 export type Row = {
   id: string
   sender: string
+  /** Address, lowercased. The handle everything sender-based is keyed on. */
+  email: string
   subject: string
   snippet: string
   date: string
@@ -111,6 +113,7 @@ function parseRow(tr: HTMLTableRowElement): Row {
   return {
     id: threadId(tr),
     sender: senderOf(tr) || 'Unknown',
+    email: (tr.querySelector('.yW span[email]')?.getAttribute('email') ?? '').toLowerCase(),
     subject: text(tr.querySelector('.y6 span')) || '(no subject)',
     snippet: text(tr.querySelector('.y2')).replace(/^[-–—\s]+/, ''),
     date: dateEl?.getAttribute('title') || text(dateEl),

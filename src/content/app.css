@@ -72,7 +72,7 @@
 }
 
 /* ─── Wordmark ─────────────────────────────────────────────────────────────
- * "Haiku" in the serif the poems use, "Email" in the interface sans: the same
+ * "Haiku" in the serif the poems use, "Mail" in the interface sans: the same
  * split the app makes between the poem and the mail.
  */
 .hk-wordmark {
@@ -244,14 +244,9 @@
 }
 
 /* ─── The mode toggle ──────────────────────────────────────────────────────
- * Real toggle, one real option. Inert until there is a second mode, and quiet
- * enough that it does not advertise itself as the thing to press.
+ * Live now that Browse exists. Quiet enough that it does not advertise itself
+ * as the thing to press; the App disables it during the wait.
  */
-.hk-mode {
-  pointer-events: none;
-  opacity: 0.7;
-}
-
 .hk-mode .rt-SegmentedControlRoot {
   background: var(--hk-mode-track);
   font-size: 0.75rem;
@@ -260,6 +255,88 @@
 
 .hk-mode .rt-SegmentedControlItemLabel {
   padding-inline: 0.6875rem;
+}
+
+/* ─── Browse ───────────────────────────────────────────────────────────────
+ * The filter strip. Chips rather than a sidebar: there are eight of them, they
+ * are the only navigation in the app, and a sidebar would put a permanent
+ * column of things to click beside a screen whose whole point is that nothing
+ * is demanding anything of you.
+ */
+.hk-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4375rem;
+}
+
+.hk-filter {
+  all: unset;
+  font-family: var(--hk-sans);
+  font-size: 0.8125rem;
+  letter-spacing: 0.005em;
+  color: var(--hk-ink-soft);
+  background: var(--hk-mode-track);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.3125rem 0.75rem;
+  cursor: pointer;
+  transition: color 120ms ease, background-color 120ms ease, border-color 120ms ease;
+}
+
+.hk-filter:hover {
+  color: var(--gray-12);
+}
+
+.hk-filter[data-active] {
+  color: var(--hk-mark-ink);
+  background: var(--hk-accent);
+  border-color: var(--hk-accent);
+}
+
+.hk-filter-count {
+  margin-left: 0.4375rem;
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tagging: only there when the row is under the pointer, so a list being read
+ * stays a list being read. */
+.hk-tagger {
+  display: flex;
+  gap: 0.375rem;
+  margin-top: 0.5rem;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.hk-row:hover .hk-tagger,
+.hk-row:focus-within .hk-tagger,
+.hk-tagger:has(.hk-tag[data-on]) {
+  opacity: 1;
+}
+
+.hk-tag {
+  all: unset;
+  font-family: var(--hk-sans);
+  font-size: 0.6875rem;
+  letter-spacing: 0.02em;
+  color: var(--hk-ink-soft);
+  border: 1px solid var(--hk-line);
+  border-radius: 999px;
+  padding: 0.125rem 0.5rem;
+  cursor: pointer;
+  transition: color 120ms ease, border-color 120ms ease, background-color 120ms ease;
+}
+
+.hk-tag:hover {
+  color: var(--hk-accent);
+  border-color: var(--hk-accent-quiet);
+}
+
+.hk-tag[data-on] {
+  color: var(--hk-mark-ink);
+  background: var(--hk-accent-quiet);
+  border-color: var(--hk-accent-quiet);
 }
 
 /* ─── Accents ──────────────────────────────────────────────────────────────

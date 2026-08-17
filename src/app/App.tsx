@@ -13,6 +13,16 @@ import {
   Theme,
 } from '@radix-ui/themes'
 import { closeThread, openThread, search, type Message, type Row } from '../lib/gmail'
+import {
+  FILTERS,
+  loadTags,
+  runFilter,
+  setTag,
+  type Filter,
+  type FilterId,
+  type SenderTag,
+  type SenderTags,
+} from './browse'
 import { pickHaiku } from './haikus'
 import { LogoMark, Wordmark } from './Logo'
 import { useCoolDown } from './useCoolDown'
@@ -28,14 +38,29 @@ const COOL_DOWN_SECONDS =
 const appearance = (): 'light' | 'dark' =>
   window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 
-type View ={ kind: 'idle' } | { kind: 'loading' } | { kind: 'results'; rows: Row[] } | { kind: 'reading'; message: Message }
+type Mode = 'search' | 'browse'
+
+type View =
+  | { kind: 'idle' }
+  | { kind: 'loading' }
+  | { kind: 'results'; rows: Row[]; filter?: Filter; senderCount?: number }
+  | { kind: 'reading'; message: Message }
 
 export default function App({ onUnmask }: { onUnmask: () => void }) {
   const { remaining, locked, progress } = useCoolDown(COOL_DOWN_SECONDS)
+  const [mode, setMode] = useState<Mode>('search')
   const [query, setQuery] = useState('')
   const [view, setView] = useState<View>({ kind: 'idle' })
+  const [filter, setFilter] = useState<Filter | null>(null)
+  const [tags, setTags] = useState<SenderTags>(loadTags)
   const lastQuery = useRef('')
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const tagCounts = useMemo(() => {
+    const counts: Record<string, number> = {}
+    for (const tag of Object.values(tags)) counts[tag] = (counts[tag] ?? 0) + 1
+    return counts
+  }, [tags])
 
   const runSearch = useCallback(async () => {
     const q = query.trim()
@@ -44,6 +69,29 @@ export default function App({ onUnmask }: { onUnmask: () => void }) {
     setView({ kind: 'loading' })
     setView({ kind: 'results', rows: await search(q) })
   }, [query, locked])
+
+  const runBrowse = useCallback(
+    async (picked: Filter) => {
+      if (locked) return
+      setFilter(picked)
+      setView({ kind: 'loading' })
+      const { rows, senderCount } = await runFilter(picked, tags)
+      // Reading a row means opening a thread, which needs a query to return to.
+      lastQuery.current = picked.query ?? 'is:starred'
+      setView({ kind: 'results', rows, filter: picked, senderCount })
+    },
+    [locked, tags],
+  )
+
+  const tagSender = useCallback((email: string, tag: SenderTag | null) => {
+    setTags(setTag(email, tag))
+  }, [])
+
+  const switchMode = useCallback((next: Mode) => {
+    setMode(next)
+    setFilter(null)
+    setView({ kind: 'idle' })
+  }, [])
 
   const read = useCallback(async (row: Row) => {
     setView({ kind: 'loading' })
@@ -60,11 +108,11 @@ export default function App({ onUnmask }: { onUnmask: () => void }) {
     <Theme accentColor="gray" grayColor="sand" radius="small" scaling="100%" appearance={appearance()}>
       <Flex direction="column" align="center" style={{ minHeight: '100vh', padding: '10vh 24px 48px' }}>
         <Box style={{ width: '100%', maxWidth: 680 }}>
-          <Masthead />
+          <Masthead mode={mode} onMode={switchMode} locked={locked} />
 
           {locked ? (
             <CoolDown remaining={remaining} progress={progress} />
-          ) : (
+          ) : mode === 'search' ? (
             <SearchBar
               ref={inputRef}
               query={query}
@@ -72,12 +120,23 @@ export default function App({ onUnmask }: { onUnmask: () => void }) {
               onSubmit={runSearch}
               busy={view.kind === 'loading'}
             />
+          ) : (
+            <BrowseBar active={filter?.id ?? null} onPick={runBrowse} tagCounts={tagCounts} />
           )}
 
           <Box mt="6">
-            {view.kind === 'idle' && <Idle locked={locked} />}
+            {view.kind === 'idle' && <Idle locked={locked} mode={mode} />}
             {view.kind === 'loading' && <Muted>Reading…</Muted>}
-            {view.kind === 'results' && <Results rows={view.rows} onOpen={read} />}
+            {view.kind === 'results' && (
+              <Results
+                rows={view.rows}
+                onOpen={read}
+                filter={view.filter}
+                senderCount={view.senderCount}
+                tags={mode === 'browse' ? tags : undefined}
+                onTag={tagSender}
+              />
+            )}
             {view.kind === 'reading' && <Reader message={view.message} onBack={back} />}
           </Box>
 
@@ -94,41 +153,74 @@ export default function App({ onUnmask }: { onUnmask: () => void }) {
   )
 }
 
-function Masthead() {
+function Masthead({ mode, onMode, locked }: { mode: Mode; onMode: (m: Mode) => void; locked: boolean }) {
   return (
     <Flex align="center" justify="between" mb="7">
       <Flex align="center" gap="2">
         <LogoMark />
         <Wordmark />
       </Flex>
-      <ModeToggle />
+      {/* Inert during the wait, like everything else. */}
+      <div style={locked ? { pointerEvents: 'none', opacity: 0.5 } : undefined}>
+        <ModeToggle mode={mode} onChange={onMode} />
+      </div>
     </Flex>
   )
 }
 
-/**
- * The mode switch, present but inert.
- *
- * There is only one mode today, so this is a real toggle showing its one real
- * option rather than a badge that would have to be replaced later. `Browse` is
- * a placeholder for the second mode — rename it here and in `MODES` when it
- * exists, and drop the `aria-disabled` wrapper to bring it to life.
- */
 const MODES = [
   { value: 'search', label: 'Search only' },
   { value: 'browse', label: 'Browse' },
 ] as const
 
-function ModeToggle() {
+function ModeToggle({ mode, onChange }: { mode: Mode; onChange: (m: Mode) => void }) {
   return (
-    <div className="hk-mode" title="Search only — other modes are coming">
-      <SegmentedControl.Root size="1" value="search" aria-disabled="true" tabIndex={-1}>
-        {MODES.map((mode) => (
-          <SegmentedControl.Item key={mode.value} value={mode.value}>
-            {mode.label}
+    <div className="hk-mode">
+      <SegmentedControl.Root size="1" value={mode} onValueChange={(v) => onChange(v as Mode)}>
+        {MODES.map((m) => (
+          <SegmentedControl.Item key={m.value} value={m.value}>
+            {m.label}
           </SegmentedControl.Item>
         ))}
       </SegmentedControl.Root>
+    </div>
+  )
+}
+
+/**
+ * Browse: the filter strip.
+ *
+ * Reading by kind rather than by search term. Nothing loads until a filter is
+ * picked — the same rule as search, for the same reason.
+ */
+function BrowseBar({
+  active,
+  onPick,
+  tagCounts,
+}: {
+  active: FilterId | null
+  onPick: (f: Filter) => void
+  tagCounts: Record<string, number>
+}) {
+  return (
+    <div className="hk-filters" role="tablist" aria-label="Browse by kind">
+      {FILTERS.map((filter) => {
+        const count = filter.tag ? tagCounts[filter.tag] ?? 0 : undefined
+        return (
+          <button
+            key={filter.id}
+            type="button"
+            role="tab"
+            aria-selected={active === filter.id}
+            className="hk-filter"
+            data-active={active === filter.id ? '' : undefined}
+            onClick={() => onPick(filter)}
+          >
+            {filter.label}
+            {count !== undefined && count > 0 && <span className="hk-filter-count">{count}</span>}
+          </button>
+        )
+      })}
     </div>
   )
 }
@@ -250,8 +342,11 @@ const SearchBar = ({
   </form>
 )
 
-function Idle({ locked }: { locked: boolean }) {
+function Idle({ locked, mode }: { locked: boolean; mode: Mode }) {
   if (locked) return null
+  if (mode === 'browse') {
+    return <Muted>Nothing is shown by default. Pick a kind of mail to read.</Muted>
+  }
   return (
     <Muted>
       Nothing is shown by default. Search for the one thing you came for — Gmail's own operators
@@ -260,14 +355,32 @@ function Idle({ locked }: { locked: boolean }) {
   )
 }
 
-function Results({ rows, onOpen }: { rows: Row[]; onOpen: (row: Row) => void }) {
-  if (!rows.length) return <Muted>No messages matched.</Muted>
+function Results({
+  rows,
+  onOpen,
+  filter,
+  senderCount,
+  tags,
+  onTag,
+}: {
+  rows: Row[]
+  onOpen: (row: Row) => void
+  filter?: Filter
+  senderCount?: number
+  /** Present only in Browse, which is where tagging makes sense. */
+  tags?: SenderTags
+  onTag: (email: string, tag: SenderTag | null) => void
+}) {
+  // An empty filter should explain itself rather than just say "no results".
+  if (!rows.length) return <Muted>{filter ? filter.hint : 'No messages matched.'}</Muted>
+
   return (
     <Box>
       {/* Matches the list's own gutter so every rule ends on the same edge. */}
       <Box pr="4">
         <Text size="1" color="gray">
           {rows.length} {rows.length === 1 ? 'result' : 'results'}
+          {senderCount ? ` from ${senderCount} ${senderCount === 1 ? 'sender' : 'senders'}` : ''}
         </Text>
         <Separator size="4" my="3" />
       </Box>
@@ -311,6 +424,9 @@ function Results({ rows, onOpen }: { rows: Row[]; onOpen: (row: Row) => void }) 
                   <Text as="p" size="1" color="gray" mt="1" truncate style={{ opacity: 0.85 }}>
                     {row.snippet}
                   </Text>
+                )}
+                {tags && row.email && (
+                  <SenderTagger email={row.email} tag={tags[row.email] ?? null} onTag={onTag} />
                 )}
               </Box>
             </Box>
@@ -427,6 +543,46 @@ function RichBody({ content }: { content: Element }) {
   }, [content])
 
   return <div ref={hostRef} />
+}
+
+/**
+ * Teaching the two filters Gmail cannot answer.
+ *
+ * Sales and Shopping both live inside Gmail's Promotions, and a keyword pass
+ * over subjects could not tell them apart — measured on a real inbox, it left
+ * 45 of 50 unclassified, because a list row exposes only a truncated snippet.
+ * So the split is not guessed: you say it once per sender, and every future
+ * email from them lands in the right list. One click, and it compounds.
+ */
+function SenderTagger({
+  email,
+  tag,
+  onTag,
+}: {
+  email: string
+  tag: SenderTag | null
+  onTag: (email: string, tag: SenderTag | null) => void
+}) {
+  const choose = (e: React.MouseEvent, next: SenderTag) => {
+    e.stopPropagation() // the whole row is a click target for opening the mail
+    onTag(email, tag === next ? null : next)
+  }
+  return (
+    <div className="hk-tagger" onClick={(e) => e.stopPropagation()}>
+      {(['sales', 'shop'] as const).map((option) => (
+        <button
+          key={option}
+          type="button"
+          className="hk-tag"
+          data-on={tag === option ? '' : undefined}
+          onClick={(e) => choose(e, option)}
+          title={`Tag ${email} as ${option === 'sales' ? 'Sales' : 'Shopping'}`}
+        >
+          {option === 'sales' ? 'Sales' : 'Shopping'}
+        </button>
+      ))}
+    </div>
+  )
 }
 
 const Muted = ({ children }: { children: React.ReactNode }) => (
