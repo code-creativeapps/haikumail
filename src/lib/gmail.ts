@@ -330,7 +330,7 @@ export function closeThread(query: string) {
  */
 export function maskTabIdentity(title: string, faviconSvg: string) {
   const href = `data:image/svg+xml;utf8,${encodeURIComponent(faviconSvg)}`
-  const OURS = 'data-haiku-email-icon'
+  const OURS = 'data-haikumail-icon'
 
   const apply = () => {
     if (document.title !== title) document.title = title

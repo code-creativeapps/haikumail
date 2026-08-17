@@ -444,7 +444,7 @@ export const HAIKUS: readonly Haiku[] = [
   ...TRANSLATIONS,
 ]
 
-const LAST_KEY = 'haiku-email:last-haiku'
+const LAST_KEY = 'haikumail:last-haiku'
 
 /**
  * `?haiku=<n>` pins the draw, so a specific one can be looked at on purpose.

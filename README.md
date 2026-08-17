@@ -1,4 +1,4 @@
-# HaikuEmail
+# HaikuMail
 
 A Chrome extension that masks Gmail and gives you a search-only reader in its
 place. Nothing is shown until you ask for something, and you can't ask for
@@ -11,7 +11,7 @@ at `document_start`.
 
 1. **Mask.** `mask.css` sets `body { visibility: hidden }` before Gmail paints,
    so there is never a visible frame of inbox. The tab title and favicon — which
-   leak unread counts — are replaced by a `MutationObserver` with "HaikuEmail"
+   leak unread counts — are replaced by a `MutationObserver` with "HaikuMail"
    and this extension's own mark, so the tab stops being a notification.
 2. **Still readable.** Gmail is only *invisible*, not blocked: it loads, signs in
    and renders normally underneath. The reader therefore needs no OAuth, no API

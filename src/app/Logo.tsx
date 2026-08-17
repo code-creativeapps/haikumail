@@ -1,5 +1,5 @@
 /**
- * The HaikuEmail mark.
+ * The HaikuMail mark.
  *
  * Three lines in 5-7-5 proportion, held in a rounded square that stands in for
  * the envelope — the two halves of the name in one shape. Solid rather than
@@ -11,7 +11,7 @@
  * Kept in step with `static/icons/icon.svg`, which is the same drawing at the
  * sizes the manifest asks for.
  *
- * The wordmark sets "Haiku" in the serif the poems are set in and "Email" in
+ * The wordmark sets "Haiku" in the serif the poems are set in and "Mail" in
  * the interface sans — the same split the app itself makes.
  */
 
@@ -38,7 +38,7 @@ export function Wordmark() {
   return (
     <span className="hk-wordmark">
       <span className="hk-wordmark-serif">Haiku</span>
-      <span className="hk-wordmark-sans">Email</span>
+      <span className="hk-wordmark-sans">Mail</span>
     </span>
   )
 }

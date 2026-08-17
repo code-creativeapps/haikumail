@@ -321,7 +321,7 @@ function Results({ rows, onOpen }: { rows: Row[]; onOpen: (row: Row) => void }) 
   )
 }
 
-const VIEW_KEY = 'haiku-email:view'
+const VIEW_KEY = 'haikumail:view'
 type ViewMode = 'plain' | 'rich'
 
 function Reader({ message, onBack }: { message: Message; onBack: () => void }) {

@@ -1,5 +1,5 @@
 /*
- * HaikuEmail's own layer, on top of Radix Themes.
+ * HaikuMail's own layer, on top of Radix Themes.
  *
  * Two typefaces, both already on the machine — a content script cannot fetch a
  * webfont (Gmail's CSP blocks it) and embedding one would add ~100KB per weight

@@ -6,8 +6,8 @@ import App from '../app/App'
 import { FAVICON_SVG } from '../app/Logo'
 import { maskTabIdentity } from '../lib/gmail'
 
-const HOST_ID = 'haiku-email-root'
-const MASKED_TITLE = 'HaikuEmail'
+const HOST_ID = 'haikumail-root'
+const MASKED_TITLE = 'HaikuMail'
 
 /**
  * Mount point: appended to <html>, not <body>. `mask.css` hides <body>, so
