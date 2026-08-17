@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
-  Badge,
   Box,
-  Button,
   Card,
   Flex,
   Heading,
@@ -10,8 +8,8 @@ import {
   ScrollArea,
   SegmentedControl,
   Separator,
+  Spinner,
   Text,
-  TextField,
   Theme,
 } from '@radix-ui/themes'
 import { closeThread, openThread, search, type Message, type Row } from '../lib/gmail'
@@ -62,7 +60,7 @@ export default function App({ onUnmask }: { onUnmask: () => void }) {
     <Theme accentColor="gray" grayColor="sand" radius="small" scaling="100%" appearance={appearance()}>
       <Flex direction="column" align="center" style={{ minHeight: '100vh', padding: '10vh 24px 48px' }}>
         <Box style={{ width: '100%', maxWidth: 680 }}>
-          <Masthead locked={locked} />
+          <Masthead />
 
           {locked ? (
             <CoolDown remaining={remaining} progress={progress} />
@@ -85,9 +83,9 @@ export default function App({ onUnmask }: { onUnmask: () => void }) {
 
           {!locked && (
             <Box mt="8" style={{ textAlign: 'center' }}>
-              <Button variant="ghost" color="gray" size="1" onClick={onUnmask}>
+              <button type="button" className="hk-unmask" onClick={onUnmask}>
                 Unmask the real Gmail for this tab
-              </Button>
+              </button>
             </Box>
           )}
         </Box>
@@ -96,17 +94,42 @@ export default function App({ onUnmask }: { onUnmask: () => void }) {
   )
 }
 
-function Masthead({ locked }: { locked: boolean }) {
+function Masthead() {
   return (
     <Flex align="center" justify="between" mb="7">
       <Flex align="center" gap="2">
         <LogoMark />
         <Wordmark />
       </Flex>
-      <Badge color="gray" variant="soft" radius="full" size="1">
-        {locked ? 'settling' : 'search only'}
-      </Badge>
+      <ModeToggle />
     </Flex>
+  )
+}
+
+/**
+ * The mode switch, present but inert.
+ *
+ * There is only one mode today, so this is a real toggle showing its one real
+ * option rather than a badge that would have to be replaced later. `Browse` is
+ * a placeholder for the second mode — rename it here and in `MODES` when it
+ * exists, and drop the `aria-disabled` wrapper to bring it to life.
+ */
+const MODES = [
+  { value: 'search', label: 'Search only' },
+  { value: 'browse', label: 'Browse' },
+] as const
+
+function ModeToggle() {
+  return (
+    <div className="hk-mode" title="Search only — other modes are coming">
+      <SegmentedControl.Root size="1" value="search" aria-disabled="true" tabIndex={-1}>
+        {MODES.map((mode) => (
+          <SegmentedControl.Item key={mode.value} value={mode.value}>
+            {mode.label}
+          </SegmentedControl.Item>
+        ))}
+      </SegmentedControl.Root>
+    </div>
   )
 }
 
@@ -158,6 +181,34 @@ function CoolDown({ remaining, progress }: { remaining: number; progress: number
   )
 }
 
+const MagnifierIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <circle cx="7" cy="7" r="4.25" stroke="currentColor" strokeWidth="1.5" />
+    <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+)
+
+const ArrowIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+    <path
+      d="M3.5 7.5h8m0 0L8.25 4.25M11.5 7.5L8.25 10.75"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
+
+/**
+ * One control rather than a field plus a button.
+ *
+ * The stock Radix field and a soft grey Button were two different design
+ * languages sitting next to each other. This is a single bordered shell that
+ * takes the focus ring itself, with the magnifier as a label and the submit
+ * arrow only becoming solid once there is something to search for — so the
+ * whole thing reads as one object.
+ */
 const SearchBar = ({
   ref,
   query,
@@ -177,21 +228,25 @@ const SearchBar = ({
       onSubmit()
     }}
   >
-    <Flex gap="2">
-      <Box flexGrow="1">
-        <TextField.Root
-          ref={ref}
-          size="3"
-          autoFocus
-          placeholder="from:anna invoice, after:2026/08/01 …"
-          value={query}
-          onChange={(e) => setQuery(e.currentTarget.value)}
-        />
-      </Box>
-      <Button size="3" variant="soft" color="gray" type="submit" loading={busy} disabled={!query.trim()}>
-        Search
-      </Button>
-    </Flex>
+    <div className="hk-search">
+      <span className="hk-search-icon">
+        <MagnifierIcon />
+      </span>
+      <input
+        ref={ref}
+        className="hk-search-input"
+        autoFocus
+        spellCheck={false}
+        autoComplete="off"
+        aria-label="Search your mail"
+        placeholder="from:anna invoice, newer_than:2d …"
+        value={query}
+        onChange={(e) => setQuery(e.currentTarget.value)}
+      />
+      <button className="hk-submit" type="submit" disabled={!query.trim() || busy} aria-label="Search">
+        {busy ? <Spinner size="1" /> : <ArrowIcon />}
+      </button>
+    </div>
   </form>
 )
 
@@ -288,9 +343,9 @@ function Reader({ message, onBack }: { message: Message; onBack: () => void }) {
   return (
     <Box>
       <Flex justify="between" align="center">
-        <Button variant="ghost" color="gray" size="1" onClick={onBack}>
-          ← Back to results
-        </Button>
+        <button type="button" className="hk-back" onClick={onBack}>
+          <span aria-hidden="true">←</span> Back to results
+        </button>
         {canRender && (
           <SegmentedControl.Root size="1" value={mode} onValueChange={(v) => choose(v as ViewMode)}>
             <SegmentedControl.Item value="plain">Plain</SegmentedControl.Item>
@@ -375,7 +430,13 @@ function RichBody({ content }: { content: Element }) {
 }
 
 const Muted = ({ children }: { children: React.ReactNode }) => (
-  <Text as="p" size="2" color="gray" style={{ lineHeight: 1.7, maxWidth: '52ch' }}>
+  <Text
+    as="p"
+    size="2"
+    color="gray"
+    // `pretty` keeps the last line from being a single orphaned word.
+    style={{ lineHeight: 1.7, maxWidth: '54ch', textWrap: 'pretty' }}
+  >
     {children}
   </Text>
 )

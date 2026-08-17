@@ -35,6 +35,10 @@
   --hk-page: #faf9f7;
   --hk-mark-bg: #46596b;
   --hk-mark-ink: #f7f5f1;
+  --hk-accent-strong: #46596b;
+  --hk-accent-ring: rgba(90, 113, 131, 0.14);
+  --hk-field: #ffffff;
+  --hk-mode-track: #f0efec;
 
   background: var(--hk-page);
   font-family: var(--hk-sans);
@@ -53,6 +57,10 @@
     --hk-page: #111110;
     --hk-mark-bg: #8ba3b7;
     --hk-mark-ink: #12161a;
+    --hk-accent-strong: #a3bacd;
+    --hk-accent-ring: rgba(143, 168, 189, 0.18);
+    --hk-field: #191917;
+    --hk-mode-track: #1e1e1c;
   }
 }
 
@@ -151,20 +159,165 @@
   }
 }
 
+/* ─── The search field ─────────────────────────────────────────────────────
+ * A single shell that owns its own border, ground and focus ring. The input
+ * inside it is stripped to nothing, and the shell takes the focus state via
+ * :focus-within, so field and button read as one object rather than as two
+ * components that happen to be adjacent.
+ */
+.hk-search {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.4375rem 0.4375rem 0.4375rem 0.8125rem;
+  background: var(--hk-field);
+  border: 1px solid var(--hk-line);
+  border-radius: 12px;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+
+.hk-search:hover {
+  border-color: var(--hk-line-strong);
+}
+
+.hk-search:focus-within {
+  border-color: var(--hk-accent-quiet);
+  box-shadow: 0 0 0 3px var(--hk-accent-ring);
+}
+
+.hk-search-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  color: var(--hk-ink-soft);
+}
+
+.hk-search-input {
+  all: unset;
+  flex: 1;
+  min-width: 0;
+  font-family: var(--hk-sans);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  padding: 0.25rem 0;
+  color: var(--gray-12);
+}
+
+.hk-search-input::placeholder {
+  color: var(--hk-ink-soft);
+  opacity: 1;
+}
+
+/*
+ * The shell already shows focus; a second ring inside it is noise. Two class
+ * selectors are needed to outrank the global `:host *:focus-visible` rule —
+ * with one class the two tie on specificity and the later rule wins, which drew
+ * a second rounded rectangle inside the field.
+ */
+.hk-search .hk-search-input:focus-visible {
+  outline: none;
+}
+
+.hk-submit {
+  all: unset;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--hk-accent);
+  color: var(--hk-mark-ink);
+  cursor: pointer;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.hk-submit:hover:not(:disabled) {
+  background: var(--hk-accent-strong);
+}
+
+/* Nothing to search for yet: present, but plainly not the next step. */
+.hk-submit:disabled {
+  background: transparent;
+  color: var(--hk-line-strong);
+  cursor: default;
+}
+
+/* ─── The mode toggle ──────────────────────────────────────────────────────
+ * Real toggle, one real option. Inert until there is a second mode, and quiet
+ * enough that it does not advertise itself as the thing to press.
+ */
+.hk-mode {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.hk-mode .rt-SegmentedControlRoot {
+  background: var(--hk-mode-track);
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+}
+
+.hk-mode .rt-SegmentedControlItemLabel {
+  padding-inline: 0.6875rem;
+}
+
 /* ─── Accents ──────────────────────────────────────────────────────────────
  * The grey blue, applied by hand rather than by switching Radix's accent, so it
- * lands on four things and nowhere else.
+ * lands on a few places and nowhere else.
  */
+.rt-ProgressRoot {
+  height: 3px !important;
+  background: var(--hk-line) !important;
+  border-radius: 999px;
+}
+
 .rt-ProgressIndicator {
   background: var(--hk-accent) !important;
+  border-radius: 999px;
 }
 
 .rt-SegmentedControlIndicator::before {
-  box-shadow: inset 0 0 0 1px var(--hk-line-strong);
+  box-shadow: inset 0 0 0 1px var(--hk-line);
+  border-radius: 7px;
+}
+
+/*
+ * Radix leaves unselected items at full text colour, so with only the selected
+ * one recoloured to the accent, the *unselected* item read as the stronger of
+ * the two. Muting the off state is what makes the pair legible.
+ */
+.rt-SegmentedControlItem {
+  color: var(--hk-ink-soft);
 }
 
 .rt-SegmentedControlItem[data-state='on'] {
   color: var(--hk-accent);
+  font-weight: 500;
+}
+
+/* The escape hatch: available, never inviting. */
+.hk-unmask,
+.hk-back {
+  all: unset;
+  font-family: var(--hk-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+  color: var(--hk-ink-soft);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  transition: color 140ms ease;
+}
+
+.hk-unmask:hover,
+.hk-back:hover {
+  color: var(--hk-accent);
+}
+
+/* Back sits at the left edge of the column, so it loses the inset. */
+.hk-back {
+  margin-left: -0.5rem;
 }
 
 :host *:focus-visible {
