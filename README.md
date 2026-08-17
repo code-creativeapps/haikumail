@@ -28,7 +28,12 @@ at `document_start`.
 
 Because Gmail is only masked, an escape hatch is included: *Unmask the real Gmail
 for this tab* (only after the timer) drops the overlay for that tab, for when you
-genuinely need to compose or manage mail.
+genuinely need to compose or manage mail. Unmasking leaves one mark in the
+bottom-right corner — bottom-*right* because Gmail's compose button and chat rail
+own the left — which puts the mask back on. Coming back restarts the 30 seconds,
+so the way in is the same price however you enter. The tab keeps HaikuMail's
+title and icon even while unmasked: whatever you are doing in Gmail, the tab
+should not go back to being a notification.
 
 ## Install
 

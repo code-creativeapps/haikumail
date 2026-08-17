@@ -5,6 +5,7 @@ import appCss from './app.css?inline'
 import App from '../app/App'
 import { FAVICON_SVG } from '../app/Logo'
 import { maskTabIdentity } from '../lib/gmail'
+import { hideRestoreButton, showRestoreButton } from './restore'
 
 const HOST_ID = 'haikumail-root'
 const MASKED_TITLE = 'HaikuMail'
@@ -34,24 +35,45 @@ function mount(): { host: HTMLElement; root: Root } {
 
 let unmasked = false
 
+/**
+ * The stylesheet that undoes the mask. Kept as a handle rather than dropped and
+ * forgotten, because putting the mask back on is just removing it again.
+ */
+let undoStyle: HTMLStyleElement | null = null
+
+function unmask(root: Root, host: HTMLElement) {
+  unmasked = true
+  root.unmount()
+  host.remove()
+
+  undoStyle = document.createElement('style')
+  undoStyle.textContent = 'body { visibility: visible !important } html { overflow: auto !important }'
+  document.documentElement.append(undoStyle)
+
+  // Without this the tab becomes plain Gmail with no way back short of a
+  // reload — and a reload is a big enough price to make unmasking feel final.
+  showRestoreButton(remask)
+}
+
+function remask() {
+  hideRestoreButton()
+  undoStyle?.remove()
+  undoStyle = null
+  unmasked = false
+  start()
+}
+
 function start() {
   if (unmasked || document.getElementById(HOST_ID)) return
+  // The tab keeps HaikuMail's title and icon even while unmasked: whatever you
+  // are doing in Gmail, the tab should not go back to being a notification.
   maskTabIdentity(MASKED_TITLE, FAVICON_SVG)
 
   const { host, root } = mount()
 
-  const unmask = () => {
-    unmasked = true
-    root.unmount()
-    host.remove()
-    const undo = document.createElement('style')
-    undo.textContent = 'body { visibility: visible !important } html { overflow: auto !important }'
-    document.documentElement.append(undo)
-  }
-
   root.render(
     <StrictMode>
-      <App onUnmask={unmask} />
+      <App onUnmask={() => unmask(root, host)} />
     </StrictMode>,
   )
 }
