@@ -1,6 +1,8 @@
 node_modules
 dist
 .playwright-mcp
+# Root-anchored on purpose: site/public/**/*.png are real assets and must
+# not be swept up by this. Do not "tidy" it to *.png.
 /*.png
 
 # Store submission bundles, built by `npm run package`.

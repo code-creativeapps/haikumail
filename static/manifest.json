@@ -2,9 +2,6 @@
   "manifest_version": 3,
   "name": "HaikuMail",
   "description": "Masks Gmail behind a calm, search-only reader. A haiku holds the first 30 seconds.",
-  "permissions": [
-    "storage"
-  ],
   "host_permissions": [
     "https://mail.google.com/*"
   ],
