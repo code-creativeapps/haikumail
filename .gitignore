@@ -2,3 +2,6 @@ node_modules
 dist
 .playwright-mcp
 /*.png
+
+# Store submission bundles, built by `npm run package`.
+/*.zip

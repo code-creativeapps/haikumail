@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
-import themeCss from '@radix-ui/themes/styles.css?inline'
+import themeCss from 'virtual:radix-themes-css'
 import appCss from './app.css?inline'
 import App from '../app/App'
 import { FAVICON_SVG } from '../app/Logo'
