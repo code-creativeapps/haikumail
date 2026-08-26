@@ -1,6 +1,12 @@
 # Chrome Web Store listing — HaikuMail 1.0.0
 
-Paste sheet for the Developer Dashboard. Every claim here is worded to match
+Paste sheet for the Developer Dashboard.
+
+> Rejected 26 Aug 2026 — "excessive keywords in the item's description",
+> triggered by a list of nine poets' names. Naming them was worth nothing to a
+> reader and read as keyword stuffing to the classifier. The list is gone;
+> resist adding names, synonyms or comma-separated runs of them back.
+ Every claim here is worded to match
 `https://haikumail.app/privacy` exactly; the store's data-disclosure form and the
 published policy disagreeing is a routine cause of rejection.
 
@@ -79,10 +85,11 @@ Upload: `haikumail-1.0.0.zip` (repo root, rebuild with `npm run package`).
     can read it: https://github.com/code-creativeapps/haikumail
 
     THE POEMS
-    157 haiku. 100 written for this, and 57 fresh translations of Bashō, Buson,
-    Issa, Shiki, Chiyo-ni, Ryōkan, Onitsura, Moritake and Gyōdai — made for the
-    extension because the well-known English renderings are still in copyright.
-    The originals and the reasoning are at https://haikumail.app/haiku
+    157 of them. 100 written for this, and 57 new translations of the classical
+    Japanese poets, made for the extension because the well-known English
+    renderings are still in copyright. You will not see the same one twice in a
+    row. The poems and the reasoning behind the translations are at
+    https://haikumail.app/haiku
 
     Free, and it stays free.
 
