@@ -14,33 +14,47 @@
     <link rel="stylesheet" href="../dist/mask.css" />
   </head>
   <body>
+    <script src="fixtures.js"></script>
     <h1>PRETEND GMAIL — you should not be able to see this</h1>
     <table><tbody id="list"></tbody></table>
     <div id="thread" hidden></div>
 
     <script>
-      // Long snippets and enough rows to scroll: the list only shows its real
-      // layout bugs (overflow, truncation, scrollbar gutter) when it does both.
-      const LONG =
-        "If you don't recognise this transfer, please contact us immediately. Our Support team is available 24/7 via the in-app chat and will help you sort it out."
-      const FAKE = [
-        ['Anna Reyes', 'Invoice #1043 for July', 'Attached is the invoice for last month', 'Aug 14, 2026', true],
-        ['Stripe', 'Your payout is on the way', 'A payout of €2,340.00 is expected', 'Aug 12, 2026', false],
-        ['Marc Dubois', 'Re: contract review', 'Two small edits and I think we are done', 'Aug 9, 2026', false],
-        ...Array.from({ length: 27 }, (_, i) => [
-          'Revolut',
-          `You sent €${(i + 1) * 5} to CreativeApps`,
-          LONG,
-          `Aug ${(i % 28) + 1}, 2026`,
-          i % 3 === 0,
-        ]),
-      ]
+      // Rows come from dev/fixtures.js. `?rows=shots` swaps the layout-stressing
+      // set for the tidy invented inbox used for the store screenshots.
+      const ROWS = new URLSearchParams(location.search).get('rows') || 'dev'
+      const FAKE = window.FIXTURES[ROWS]
       let n = 0
+      /**
+       * Gmail filters; so does this. Without it every query returns the whole
+       * fixture, which reads as broken the moment you look at the results —
+       * a "Newsletters" filter answering with someone's invoice.
+       *
+       * `label:^smartlabel_x` matches a row's labels, anything else is a
+       * substring match over sender, subject and snippet.
+       */
+      function matches(row, query) {
+        const [from, subj, snip, , , labels = []] = row
+        const label = query.match(/label:\^smartlabel_(\w+)/)
+        if (label) return labels.includes(label[1])
+        const category = query.match(/category:(\w+)/)
+        if (category) return labels.includes(category[1])
+        if (query.startsWith('is:starred')) return labels.includes('starred')
+        const terms = query.toLowerCase().split(/\s+/).filter(Boolean)
+        const hay = `${from} ${subj} ${snip}`.toLowerCase()
+        return terms.every((t) => hay.includes(t))
+      }
+
+      let lastQuery = ''
       function renderList() {
         n++
         document.getElementById('thread').hidden = true
-        document.getElementById('list').innerHTML = FAKE.map(
-          ([from, subj, snip, date, unread], i) => `
+        // Original indices are carried through so a row still opens itself
+        // after the list has been filtered.
+        document.getElementById('list').innerHTML = FAKE.map((row, i) => [row, i])
+          .filter(([row]) => matches(row, lastQuery))
+          .map(
+          ([[from, subj, snip, date, unread], i]) => `
           <tr class="zA ${unread ? 'zE' : 'yO'}" id="row-${n}-${i}">
             <td class="yX xY"><span data-legacy-thread-id="t${i}" data-thread-id="#thread-f:t${i}"></span>
               <div class="yW"><span class="bare">${from}</span><span translate="no" email="x@y.z" name="${from}">${from}</span><span class="bare"></span></div></td>
@@ -55,9 +69,12 @@
         document.getElementById('list').innerHTML = ''
         const t = document.getElementById('thread')
         t.hidden = false
-        t.innerHTML = `<h2 class="hP">${subj}</h2>
-          <span class="gD" name="${from}">${from}</span><span class="g3" title="${date}">${date}</span>
-          <div class="ii gt"><div class="a3s">
+        // The store fixture gets a clean message; the dev fixture keeps the
+        // hostile one, which is the whole point of having it.
+        const inner =
+          ROWS === 'shots'
+            ? window.SHOT_BODY(from)
+            : `
             <style>h1 { color: crimson } div { font-family: Georgia, serif }</style>
             <table width="600" style="background:#f7f3e8;border:2px solid #123"><tr><td align="center" style="padding:24px">
               <h1 style="letter-spacing:2px">KEITH HARING</h1>
@@ -68,12 +85,17 @@
               <img src="x" onerror="document.title='PWNED'">
               <${''}script>document.title = 'PWNED'<\/script>
             </td></tr></table>
-            <div>Hi Karim,</div><div><br></div><div>Here is the thing you actually came here for.</div><div><br></div><div>Best,<br>${from}</div>
-            <div class="gmail_quote">On Tue, someone wrote: quoted history that should be dropped</div>
-          </div></div>`
+            <div>Hi there,</div><div><br></div><div>Here is the thing you actually came here for.</div><div><br></div><div>Best,<br>${from}</div>
+            <div class="gmail_quote">On Tue, someone wrote: quoted history that should be dropped</div>`
+
+        t.innerHTML = `<h2 class="hP">${subj}</h2>
+          <span class="gD" name="${from}">${from}</span><span class="g3" title="${date}">${date}</span>
+          <div class="ii gt"><div class="a3s">${inner}</div></div>`
       }
+
       function route() {
         const m = location.hash.match(/^#search\/([^/]+)(?:\/(.+))?/)
+        if (m) lastQuery = decodeURIComponent(m[1])
         setTimeout(() => (m && m[2] ? renderThread(m[2]) : renderList()), 700)
       }
       addEventListener('hashchange', route)

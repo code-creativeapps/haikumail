@@ -53,9 +53,11 @@ Upload: `haikumail-1.0.0.zip` (repo root, rebuild with `npm run package`).
     and tag the senders that matter so they are one click away.
 
     READING
-    Messages open plain by default, with the original a click away. Remote
-    images and tracking pixels are stripped, so opening a message does not tell
-    the sender you opened it.
+    Two views. Plain rebuilds the message as text with the quoted history
+    dropped; Original shows the sender's own markup. Either way it is first
+    stripped of scripts, event handlers, form tags and unsafe links, and
+    tracking pixels are removed — so opening a message does not quietly tell
+    the sender that you opened it.
 
     IT IS NOT A PRISON
     One link drops the mask for that tab and gives you the real Gmail, for the
@@ -166,9 +168,16 @@ Upload: `haikumail-1.0.0.zip` (repo root, rebuild with `npm run package`).
 | Asset | Size | Status |
 |---|---|---|
 | Store icon | 128×128 | in the package (`icons/icon-128.png`) |
-| Screenshots | 1280×800 | TODO — from `dev/test.html` |
-| Small promo tile | 440×280 | TODO |
+| Screenshots | 1280×800 ×5 | `store/screenshots/1..5-*.png` |
+| Small promo tile | 440×280 | `store/screenshots/promo-tile-440x280.png` |
 | Marquee | 1400×560 | optional, only needed for featuring |
+
+Regenerate the lot with `npm run shots`. They are captured from `dev/test.html`
+using the `shots` fixture — every person and company in them is invented — and
+written out at the store's exact pixel sizes, which are the only ones it takes.
+
+Upload the five in order; the store shows them as a carousel and the haiku is
+the only one that will stop a scroll.
 
 ---
 

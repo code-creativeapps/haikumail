@@ -7,3 +7,6 @@ dist
 
 # Store submission bundles, built by `npm run package`.
 /*.zip
+
+# Intermediate captures; the framed store assets beside them are committed.
+/store/screenshots/raw/

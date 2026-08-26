@@ -8,7 +8,8 @@
     "build": "vite build",
     "dev": "vite build --watch",
     "icons": "node scripts/render-icons.mjs",
-    "package": "npm run build && rm -f haikumail-$npm_package_version.zip && cd dist && zip -qr ../haikumail-$npm_package_version.zip . -x \".DS_Store\" \"__MACOSX/*\""
+    "package": "npm run build && rm -f haikumail-$npm_package_version.zip && cd dist && zip -qr ../haikumail-$npm_package_version.zip . -x \".DS_Store\" \"__MACOSX/*\"",
+    "shots": "node scripts/shots.mjs"
   },
   "dependencies": {
     "@radix-ui/themes": "^3.3.0",
@@ -21,6 +22,7 @@
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.0.5",
     "lightningcss": "^1.33.0",
+    "playwright": "^1.62.1",
     "typescript": "^7.0.2",
     "vite": "^8.2.1"
   },
