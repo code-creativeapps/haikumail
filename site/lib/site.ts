@@ -19,9 +19,3 @@ export const TAGLINE = 'Gmail, behind a haiku'
 export const DESCRIPTION =
   'A Chrome extension that masks your inbox behind a search-only reader. ' +
   'A haiku holds the first thirty seconds. Nothing leaves your browser.'
-
-/** The two the manifest asks for, quoted on the page as evidence. */
-export const PERMISSIONS = {
-  permissions: ['storage'],
-  host_permissions: ['https://mail.google.com/*'],
-} as const

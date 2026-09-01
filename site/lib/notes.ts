@@ -15,6 +15,13 @@ export type Note = {
 
 export const NOTES: Note[] = [
   {
+    slug: 'what-the-extension-can-and-cannot-see',
+    title: 'What the extension can and cannot see',
+    description:
+      'The privacy claim in long form: the manifest read line by line, what is stored, what is not, and how to check all of it yourself.',
+    published: '2026-09-01',
+  },
+  {
     slug: 'reading-gmail-without-oauth',
     title: 'Reading Gmail without OAuth',
     description:
