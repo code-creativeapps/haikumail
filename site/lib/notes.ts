@@ -15,6 +15,13 @@ export type Note = {
 
 export const NOTES: Note[] = [
   {
+    slug: 'reading-gmail-without-oauth',
+    title: 'Reading Gmail without OAuth',
+    description:
+      'A content script in the tab you are already signed into can read your mail without a token, a scope screen or a server. Here is how, and the five things that bite you.',
+    published: '2026-09-01',
+  },
+  {
     slug: 'where-famous-haiku-translations-come-from',
     title: 'Where “famous haiku” translations come from',
     description:
