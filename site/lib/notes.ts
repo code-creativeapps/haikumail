@@ -1,15 +1,9 @@
 /**
- * The writing section. Empty on purpose right now.
- *
- * Five pieces are planned, and the first — an honest, complete answer to "how
- * do I hide the unread count in Gmail" — is the best organic target the site
- * has: real recurring volume, and the current results are decade-old forum
- * threads. But a how-to that is confidently wrong is worse than no how-to,
- * and worse for the domain than publishing nothing, so nothing goes here until
- * the steps have actually been checked against Gmail.
+ * The writing section.
  *
  * The route, the index and the sitemap all read from this array, so adding an
- * entry plus its page is the whole of publishing one.
+ * entry plus its page under `app/notes/<slug>/` is the whole of publishing one.
+ * Newest first; the index and the sitemap both rely on that order.
  */
 export type Note = {
   slug: string
@@ -19,7 +13,15 @@ export type Note = {
   published: string
 }
 
-export const NOTES: Note[] = []
+export const NOTES: Note[] = [
+  {
+    slug: 'where-famous-haiku-translations-come-from',
+    title: 'Where “famous haiku” translations come from',
+    description:
+      'The poems are centuries old and long out of copyright. The English versions you have read are not — and that is why HaikuMail ships fifty-seven of its own.',
+    published: '2026-09-01',
+  },
+]
 
 export const noteBySlug = (slug: string): Note | undefined =>
   NOTES.find((n) => n.slug === slug)

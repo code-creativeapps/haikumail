@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: url('/'), priority: 1, changeFrequency: 'monthly' },
     { url: url('/haiku'), priority: 0.7, changeFrequency: 'yearly' },
+    { url: url('/notes'), priority: 0.6, changeFrequency: 'monthly' },
     { url: url('/privacy'), priority: 0.3, changeFrequency: 'yearly' },
     { url: url('/terms'), priority: 0.3, changeFrequency: 'yearly' },
     ...NOTES.map((n) => ({
