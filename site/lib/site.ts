@@ -11,7 +11,8 @@ export const REPO_URL = 'https://github.com/code-creativeapps/haikumail'
 export const CONTACT_EMAIL = 'hello@haikumail.app'
 
 /** Set once the Chrome Web Store listing is live. */
-export const STORE_URL: string | null = null
+export const STORE_URL: string | null =
+  'https://chromewebstore.google.com/detail/icnpoeofemlolnkckjbnepoaconhokgl'
 
 export const TAGLINE = 'Gmail, behind a haiku'
 
