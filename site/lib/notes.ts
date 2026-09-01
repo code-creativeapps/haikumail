@@ -15,6 +15,13 @@ export type Note = {
 
 export const NOTES: Note[] = [
   {
+    slug: 'hide-the-unread-count-in-gmail',
+    title: 'How to hide the unread count in Gmail',
+    description:
+      'Two settings remove the badge and change what the number counts. Neither touches the tab title, which is the one most people are actually bothered by. Checked against Gmail in September 2026.',
+    published: '2026-09-01',
+  },
+  {
     slug: 'why-a-thirty-second-wait-works',
     title: 'Why a thirty-second wait works when a blocker doesn’t',
     description:
