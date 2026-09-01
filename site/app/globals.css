@@ -797,3 +797,10 @@ a {
 .hk-quote span {
   color: var(--hk-ink);
 }
+
+/* The one install control an essay gets, at the end where it has earned it. */
+.hk-note-cta {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hk-line);
+}

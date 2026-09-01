@@ -15,6 +15,13 @@ export type Note = {
 
 export const NOTES: Note[] = [
   {
+    slug: 'why-a-thirty-second-wait-works',
+    title: 'Why a thirty-second wait works when a blocker doesn’t',
+    description:
+      'Blockers ask you to be disciplined at the exact moment you have none left. A delay asks for nothing, and that is why it survives contact with a bad afternoon.',
+    published: '2026-09-01',
+  },
+  {
     slug: 'what-the-extension-can-and-cannot-see',
     title: 'What the extension can and cannot see',
     description:
