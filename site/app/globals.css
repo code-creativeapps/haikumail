@@ -512,7 +512,9 @@ a {
 }
 
 .hk-section h2 {
-  margin: 0 0 0.75rem;
+  max-width: none;
+  text-align: center;
+  margin: 0 auto 0.75rem;
   font-family: var(--hk-serif);
   font-size: clamp(1.5rem, 1.2rem + 1vw, 1.9rem);
   font-weight: 500;
@@ -857,36 +859,6 @@ a {
   margin: 0 0 0.4rem;
 }
 
-.hk-later-list {
-  list-style: none;
-  margin: 1.5rem auto;
-  padding: 0;
-}
-
-.hk-later-list li {
-  position: relative;
-  margin: 0 0 0.9rem;
-  padding-left: 1.1rem;
-  line-height: 1.6;
-  color: var(--hk-ink-2);
-}
-
-.hk-later-list li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.72em;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--hk-accent-quiet);
-}
-
-.hk-later-list strong {
-  color: var(--hk-ink);
-  font-weight: 500;
-}
-
 @media (max-width: 34rem) {
   .hk-teaser {
     flex-direction: column;
@@ -894,45 +866,19 @@ a {
   }
 }
 
-/* Section marks.
- *
- * The heading column already sits 13rem left of the text column, so there is a
- * ready-made margin to draw in. The figure is a normal child of the section —
- * it takes the same measured width as everything else — and the drawing is
- * pushed out of it into that margin. Below 68rem the margin is gone, so the
- * drawing comes back inline and sits above the text instead. */
+/* Section marks. One small drawing above each heading, at the top of the
+ * section's own rhythm: mark, title, text. */
 .hk-figure {
-  max-width: var(--hk-measure);
-  margin: 0 auto;
-  position: relative;
-  height: 0;
+  margin: 0 auto 0.9rem;
+  display: flex;
+  justify-content: center;
 }
 
 .hk-mark {
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 3.5rem;
+  height: 3.5rem;
   display: block;
   overflow: visible;
-}
-
-@media (min-width: 68rem) {
-  .hk-figure .hk-mark {
-    position: absolute;
-    right: calc(100% + 3rem);
-    top: 0.35rem;
-  }
-}
-
-@media (max-width: 67.99rem) {
-  .hk-figure {
-    height: auto;
-    margin-bottom: 1.25rem;
-  }
-
-  .hk-mark {
-    width: 3.25rem;
-    height: 3.25rem;
-  }
 }
 
 /* The mark is decoration for a section that is already spelled out in words,
@@ -941,5 +887,106 @@ a {
 @media (prefers-contrast: more) {
   .hk-mark {
     display: none;
+  }
+}
+
+/* The app section.
+ *
+ * Given a tinted ground and a card grid because it is a different product
+ * being sold, not another feature of the one above it — the visual break is
+ * what stops a reader taking "coming soon" as a paid tier of what they just
+ * read about. */
+.hk-app {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  padding: clamp(3rem, 7vw, 5rem) 0 clamp(2.5rem, 6vw, 4rem);
+  background: var(--hk-raise);
+  border-top: 1px solid var(--hk-line);
+  border-bottom: 1px solid var(--hk-line);
+  text-align: center;
+}
+
+.hk-app h2 {
+  font-family: var(--hk-serif);
+  font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.4rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.75rem;
+  text-wrap: balance;
+}
+
+.hk-app-lede {
+  max-width: 36rem;
+  margin: 0 auto;
+  font-family: var(--hk-serif);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--hk-ink-2);
+  text-wrap: pretty;
+}
+
+.hk-app-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin: clamp(2rem, 4vw, 3rem) auto 0;
+  padding: 0;
+  max-width: 46rem;
+  text-align: left;
+}
+
+.hk-app-grid li {
+  background: var(--hk-page);
+  border: 1px solid var(--hk-line);
+  border-radius: 14px;
+  padding: 1.5rem 1.5rem 1.65rem;
+}
+
+.hk-app-grid .hk-mark {
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-bottom: 0.9rem;
+}
+
+.hk-app-grid h3 {
+  margin: 0 0 0.4rem;
+  font-family: var(--hk-serif);
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.hk-app-grid p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--hk-ink-2);
+}
+
+.hk-app-form {
+  max-width: 34rem;
+  margin: clamp(2rem, 4vw, 3rem) auto 0;
+  text-align: left;
+}
+
+.hk-app-form > p {
+  font-family: var(--hk-serif);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--hk-ink-2);
+  margin: 0 0 1rem;
+}
+
+.hk-app-foot {
+  margin: 2.25rem auto 0;
+  font-size: 0.875rem;
+  color: var(--hk-ink-soft);
+}
+
+@media (max-width: 44rem) {
+  .hk-app-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.875rem;
   }
 }

@@ -4,7 +4,11 @@ import { HaikuStage } from '@/components/HaikuStage'
 import { InstallButton, InstallNote } from '@/components/InstallButton'
 import {
   MarkApp,
+  MarkArchive,
   MarkDoor,
+  MarkInboxes,
+  MarkPhone,
+  MarkTidy,
   MarkKinds,
   MarkPoem,
   MarkReading,
@@ -96,8 +100,8 @@ export default function Home() {
 
         {/* 3 — The wait. */}
         <section id="how" className="hk-shell hk-section hk-narrow">
-          <h2>Thirty seconds, first</h2>
           <figure className="hk-figure"><MarkWait /></figure>
+          <h2>Thirty seconds, first</h2>
           <p>
             Open Gmail and you get a poem instead, one line at a time, and a small grey
             number counting down. Every control is locked until it reaches zero. The
@@ -117,8 +121,8 @@ export default function Home() {
 
         {/* 4 — Search only. */}
         <section className="hk-shell hk-section hk-narrow">
-          <h2>Then: nothing, until you ask</h2>
           <figure className="hk-figure"><MarkSearch /></figure>
+          <h2>Then: nothing, until you ask</h2>
           <p>
             No list. No unread count. No bold senders arranged to be glanced at. Just a
             search field, and whatever you came for.
@@ -133,8 +137,8 @@ export default function Home() {
 
         {/* 5 — Browse. */}
         <section className="hk-shell hk-section hk-narrow">
-          <h2>Or read by kind</h2>
           <figure className="hk-figure"><MarkKinds /></figure>
+          <h2>Or read by kind</h2>
           <p>
             Sometimes you don&rsquo;t have a search term, you have a mood. Browse gives
             you the categories you&rsquo;d have made yourself — favourites, the people you
@@ -149,8 +153,8 @@ export default function Home() {
 
         {/* 6 — Reading. */}
         <section className="hk-shell hk-section hk-narrow">
-          <h2>Reading a message</h2>
           <figure className="hk-figure"><MarkReading /></figure>
+          <h2>Reading a message</h2>
           <p>
             Two views. <strong>Plain</strong> rebuilds the message as text, with the
             quoted history dropped. <strong>Original</strong> shows the sender&rsquo;s
@@ -165,8 +169,8 @@ export default function Home() {
 
         {/* 7 — The escape hatch. Honesty as conversion. */}
         <section className="hk-shell hk-section hk-narrow">
-          <h2>It isn&rsquo;t a prison</h2>
           <figure className="hk-figure"><MarkDoor /></figure>
+          <h2>It isn&rsquo;t a prison</h2>
           <p>
             One link drops the mask and gives you the real Gmail for that tab, for when
             you genuinely need to compose something or dig through a thread. A small mark
@@ -180,8 +184,8 @@ export default function Home() {
 
         {/* 8 — The tab. */}
         <section className="hk-shell hk-section hk-narrow">
-          <h2>The tab stops being a notification</h2>
           <figure className="hk-figure"><MarkTab /></figure>
+          <h2>The tab stops being a notification</h2>
           <p>
             Gmail writes your unread count into the tab title and the favicon, which is
             how an inbox reaches you from across the room while you are doing something
@@ -192,8 +196,8 @@ export default function Home() {
 
         {/* 9 — The strongest section, and the highest-intent moment on the page. */}
         <section className="hk-shell hk-section hk-narrow">
-          <h2>Nothing leaves your browser</h2>
           <figure className="hk-figure"><MarkSealed /></figure>
+          <h2>Nothing leaves your browser</h2>
           <p>
             HaikuMail has no server. It makes no network requests. It asks for no account,
             shows no OAuth screen, and holds no API key — because it never asks Google for
@@ -224,8 +228,8 @@ export default function Home() {
 
         {/* 10 — The poems. */}
         <section className="hk-shell hk-section hk-narrow">
-          <h2>About the poems</h2>
           <figure className="hk-figure"><MarkPoem /></figure>
+          <h2>About the poems</h2>
           <p>
             There are {ORIGINALS.length + TRANSLATIONS.length} of them, and you get a
             different one each time. {ORIGINALS.length} were written for this extension.
@@ -259,40 +263,71 @@ export default function Home() {
           </dl>
         </section>
 
-        {/* 12 — The waitlist. Framed as scope rather than tier: nothing above
-            this point is being withheld, and the copy has to keep saying so. */}
-        <section id="the-app" className="hk-shell hk-section hk-narrow hk-later">
-          <p className="hk-eyebrow">Coming soon</p>
-          <h2>The app</h2>
-          <figure className="hk-figure"><MarkApp /></figure>
-          <p>
-            Everything above is the free extension, and it stays free. This is the other
-            thing — a hosted HaikuMail, for the three places an extension cannot go.
-          </p>
-          <ul className="hk-later-list">
-            <li>
-              <strong>Your phone.</strong> Mobile browsers do not run extensions at all,
-              and the phone is where most of the compulsive checking actually happens.
-            </li>
-            <li>
-              <strong>Any inbox.</strong> Not only Gmail. The extension reads Gmail&rsquo;s
-              own page, so Gmail is all it can ever do.
-            </li>
-            <li>
-              <strong>An archive worth keeping.</strong> Years of mail read
-              sender-by-sender rather than message-by-message — the shape you actually
-              remember things in.
-            </li>
-            <li>
-              <strong>Tidying while you are not looking.</strong> The filing that never
-              happens, happening quietly in the background.
-            </li>
-          </ul>
-          <p>
-            It does not exist yet and there is no price — so this is not a pre-order, and
-            there is nothing to be early for. One email, when there is something to say.
-          </p>
-          <Waitlist />
+        {/* 12 — The app. A section of its own rather than a footnote: it is a
+            different product, and the page has to say what it is for before it
+            asks for an address. Still framed as scope, never as a better tier. */}
+        <section id="the-app" className="hk-app">
+          <div className="hk-shell">
+            <figure className="hk-figure">
+              <MarkApp />
+            </figure>
+            <p className="hk-eyebrow">Coming soon</p>
+            <h2>HaikuMail, everywhere else</h2>
+            <p className="hk-app-lede">
+              The extension is Gmail, on a desktop, in Chrome. That is a real limit and
+              no amount of work removes it — a page script cannot reach your phone, and
+              it cannot read an inbox that is not Gmail. The app is the version without
+              those walls.
+            </p>
+
+            <ul className="hk-app-grid">
+              <li>
+                <MarkPhone />
+                <h3>On your phone</h3>
+                <p>
+                  Mobile browsers do not run extensions at all — and the phone is where
+                  most of the checking you would rather not do actually happens.
+                </p>
+              </li>
+              <li>
+                <MarkInboxes />
+                <h3>Any inbox</h3>
+                <p>
+                  Not only Gmail. Fastmail, Outlook, a work account on a domain nobody
+                  has heard of — the same thirty seconds in front of all of them.
+                </p>
+              </li>
+              <li>
+                <MarkArchive />
+                <h3>An archive that goes back</h3>
+                <p>
+                  Years of mail, read sender-by-sender rather than message-by-message —
+                  which is the shape you actually remember things in.
+                </p>
+              </li>
+              <li>
+                <MarkTidy />
+                <h3>Tidying while you are away</h3>
+                <p>
+                  The filing that never happens, happening quietly in the background
+                  instead of waiting for an afternoon you were never going to spend.
+                </p>
+              </li>
+            </ul>
+
+            <div className="hk-app-form">
+              <p>
+                It does not exist yet and there is no price, so this is not a pre-order
+                and there is nothing to be early for. One email, when there is something
+                to say.
+              </p>
+              <Waitlist />
+            </div>
+
+            <p className="hk-app-foot">
+              Everything above this section is the free extension. It stays free.
+            </p>
+          </div>
         </section>
       </main>
 

@@ -150,3 +150,44 @@ export const MarkApp = () => (
     <path d="M70 68h8" stroke="var(--hk-accent)" {...S} />
   </Frame>
 )
+
+/* ---------------------------------------------------------------------- *
+ * Smaller marks, for the cards in the app section. Same rules, but they
+ * are read at half the size, so they carry roughly half the detail.
+ * ---------------------------------------------------------------------- */
+
+/** The phone an extension can never reach. */
+export const MarkPhone = () => (
+  <Frame>
+    <rect x="30" y="12" width="36" height="72" rx="7" stroke="var(--hk-ink-soft)" {...S} />
+    <path d="M42 74h12" stroke="var(--hk-accent)" {...S} />
+    <path d="M40 30h16M40 42h16" stroke="var(--hk-accent)" {...S} />
+  </Frame>
+)
+
+/** Any inbox, not only the one we can read today. */
+export const MarkInboxes = () => (
+  <Frame>
+    <rect x="10" y="26" width="34" height="44" rx="5" stroke="var(--hk-ink-soft)" {...S} />
+    <rect x="52" y="26" width="34" height="44" rx="5" stroke="var(--hk-accent)" {...S} />
+    <path d="M18 40h18M18 50h12" stroke="var(--hk-ink-soft)" {...S} />
+    <path d="M60 40h18M60 50h12" stroke="var(--hk-accent)" {...S} />
+  </Frame>
+)
+
+/** An archive: years, stacked, and still legible. */
+export const MarkArchive = () => (
+  <Frame>
+    <rect x="14" y="20" width="68" height="16" rx="4" stroke="var(--hk-ink-soft)" {...S} />
+    <rect x="14" y="42" width="68" height="16" rx="4" stroke="var(--hk-ink-soft)" {...S} />
+    <rect x="14" y="64" width="68" height="16" rx="4" stroke="var(--hk-accent)" {...S} />
+  </Frame>
+)
+
+/** The filing that happens while you are not there. */
+export const MarkTidy = () => (
+  <Frame>
+    <path d="M14 30h40M14 46h40M14 62h24" stroke="var(--hk-ink-soft)" {...S} />
+    <path d="M64 34v28m-10-14 10 14 14-22" stroke="var(--hk-accent)" {...S} />
+  </Frame>
+)
