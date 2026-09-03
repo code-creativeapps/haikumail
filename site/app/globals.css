@@ -552,7 +552,9 @@ a {
 
 /* ─── FAQ ──────────────────────────────────────────────────────────────────*/
 .hk-faq {
-  margin: 1.5rem 0 0;
+  max-width: var(--hk-measure);
+  margin: 1.5rem auto 0;
+  text-align: left;
 }
 
 .hk-faq > div {
@@ -989,4 +991,33 @@ a {
     grid-template-columns: minmax(0, 1fr);
     gap: 0.875rem;
   }
+}
+
+/* The hero demo.
+ *
+ * A recording of the extension, sized to the text column's rhythm rather than
+ * bled to the edges — the product is a quiet thing and a full-width autoplay
+ * banner would be arguing against the pitch. */
+.hk-demo {
+  margin: 2rem auto 0;
+  max-width: 44rem;
+}
+
+.hk-demo-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1200 / 760;
+  border: 1px solid var(--hk-line);
+  border-radius: 14px;
+  background: var(--hk-raise);
+  box-shadow: 0 14px 40px rgba(28, 28, 25, 0.09);
+}
+
+.hk-demo figcaption {
+  margin-top: 0.9rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--hk-ink-soft);
+  text-wrap: pretty;
 }

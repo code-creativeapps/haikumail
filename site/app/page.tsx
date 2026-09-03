@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Footer, Header } from '@/components/Chrome'
 import { HaikuStage } from '@/components/HaikuStage'
+import { HeroVideo } from '@/components/HeroVideo'
 import { InstallButton, InstallNote } from '@/components/InstallButton'
 import {
   MarkApp,
@@ -62,7 +63,7 @@ export default function Home() {
             HaikuMail hides your inbox behind a search-only reader — and won&rsquo;t let
             you ask it for anything for thirty seconds.
           </p>
-          <HaikuStage />
+          <HeroVideo />
           <div className="hk-cta">
             <InstallButton />
             <InstallNote />
@@ -117,6 +118,7 @@ export default function Home() {
             Mostly what happens in those thirty seconds is that you remember you
             didn&rsquo;t need anything.
           </p>
+          <HaikuStage />
         </section>
 
         {/* 4 — Search only. */}
