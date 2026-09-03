@@ -29,15 +29,20 @@ function Frame({ children }: { children: React.ReactNode }) {
   )
 }
 
-/** The wait: a poem held inside a timer that has most of its way to run. */
+/** The wait: a poem held inside a timer with most of its way still to run. */
 export const MarkWait = () => (
   <Frame>
-    <circle cx="48" cy="48" r="34" stroke="var(--hk-ink-soft)" {...S} />
-    <path d="M48 14a34 34 0 0 1 30 20" stroke="var(--hk-accent)" {...S} />
+    <circle cx="48" cy="48" r="33" stroke="var(--hk-line-strong)" {...S} />
+    <path
+      d="M48 15a33 33 0 0 1 23.3 56.3"
+      stroke="var(--hk-accent)"
+      {...S}
+      strokeWidth={4}
+    />
     <g stroke="var(--hk-ink-soft)" {...S}>
-      <path d="M34 40h20" />
-      <path d="M30 48h32" />
-      <path d="M34 56h20" />
+      <path d="M37 41h22" />
+      <path d="M33 49h30" />
+      <path d="M37 57h22" />
     </g>
   </Frame>
 )
@@ -91,27 +96,27 @@ export const MarkDoor = () => (
   </Frame>
 )
 
-/** The tab: a browser tab with its badge struck through. */
+/** The tab: the badge that used to sit on it, struck out. */
 export const MarkTab = () => (
   <Frame>
-    <path d="M12 38h34a6 6 0 0 0 6-6V26a6 6 0 0 1 6-6h26" stroke="var(--hk-ink-soft)" {...S} />
-    <path d="M12 38v34h72V20" stroke="var(--hk-ink-soft)" {...S} />
-    <circle cx="66" cy="52" r="10" stroke="var(--hk-line)" {...S} />
-    <path d="m59 59 14-14" stroke="var(--hk-accent)" {...S} />
+    <rect x="12" y="20" width="36" height="15" rx="4" stroke="var(--hk-ink-soft)" {...S} />
+    <rect x="12" y="35" width="72" height="41" rx="5" stroke="var(--hk-ink-soft)" {...S} />
+    <circle cx="55" cy="27" r="8" stroke="var(--hk-line-strong)" {...S} />
+    <path d="m49 33 12-12" stroke="var(--hk-accent)" {...S} strokeWidth={3} />
   </Frame>
 )
 
-/** Nothing leaves: a boundary an arrow does not get through. */
+/** Nothing leaves: the request that does not get out. */
 export const MarkSealed = () => (
   <Frame>
-    <rect x="14" y="18" width="52" height="60" rx="8" stroke="var(--hk-ink-soft)" {...S} />
+    <rect x="10" y="22" width="50" height="52" rx="6" stroke="var(--hk-ink-soft)" {...S} />
     <g stroke="var(--hk-ink-soft)" {...S}>
-      <path d="M26 36h28" />
-      <path d="M26 48h28" />
-      <path d="M26 60h18" />
+      <path d="M22 38h26" />
+      <path d="M22 48h26" />
+      <path d="M22 58h16" />
     </g>
-    <path d="M82 30v36" stroke="var(--hk-accent)" {...S} />
-    <path d="M70 48h6" stroke="var(--hk-accent)" strokeDasharray="2 5" {...S} />
+    <path d="M64 48h8m-4-5 5 5-5 5" stroke="var(--hk-accent)" {...S} />
+    <path d="M82 24v48" stroke="var(--hk-accent)" {...S} strokeWidth={4} />
   </Frame>
 )
 
