@@ -159,9 +159,9 @@ export const MarkApp = () => (
 /** The phone an extension can never reach. */
 export const MarkPhone = () => (
   <Frame>
-    <rect x="30" y="12" width="36" height="72" rx="7" stroke="var(--hk-ink-soft)" {...S} />
-    <path d="M42 74h12" stroke="var(--hk-accent)" {...S} />
-    <path d="M40 30h16M40 42h16" stroke="var(--hk-accent)" {...S} />
+    <rect x="26" y="8" width="44" height="80" rx="8" stroke="var(--hk-ink-soft)" {...S} />
+    <path d="M40 78h16" stroke="var(--hk-accent)" {...S} />
+    <path d="M36 30h24M36 44h24M36 58h14" stroke="var(--hk-accent)" {...S} />
   </Frame>
 )
 
@@ -187,7 +187,7 @@ export const MarkArchive = () => (
 /** The filing that happens while you are not there. */
 export const MarkTidy = () => (
   <Frame>
-    <path d="M14 30h40M14 46h40M14 62h24" stroke="var(--hk-ink-soft)" {...S} />
-    <path d="M64 34v28m-10-14 10 14 14-22" stroke="var(--hk-accent)" {...S} />
+    <path d="M10 26h44M10 44h44M10 62h26" stroke="var(--hk-ink-soft)" {...S} />
+    <path d="M66 26v40m-14-14 14 18 18-30" stroke="var(--hk-accent)" {...S} />
   </Frame>
 )
