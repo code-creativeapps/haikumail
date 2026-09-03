@@ -754,7 +754,7 @@ a {
 /* Notes — the index list and the one bit of furniture the essays need. */
 .hk-note-list {
   list-style: none;
-  margin: 2.5rem 0 0;
+  margin: 2.5rem auto 0;
   padding: 0;
 }
 
@@ -859,7 +859,7 @@ a {
 
 .hk-later-list {
   list-style: none;
-  margin: 1.5rem 0;
+  margin: 1.5rem auto;
   padding: 0;
 }
 
