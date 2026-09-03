@@ -893,3 +893,53 @@ a {
     gap: 0.5rem;
   }
 }
+
+/* Section marks.
+ *
+ * The heading column already sits 13rem left of the text column, so there is a
+ * ready-made margin to draw in. The figure is a normal child of the section —
+ * it takes the same measured width as everything else — and the drawing is
+ * pushed out of it into that margin. Below 68rem the margin is gone, so the
+ * drawing comes back inline and sits above the text instead. */
+.hk-figure {
+  max-width: var(--hk-measure);
+  margin: 0 auto;
+  position: relative;
+  height: 0;
+}
+
+.hk-mark {
+  width: 4.5rem;
+  height: 4.5rem;
+  display: block;
+  overflow: visible;
+}
+
+@media (min-width: 68rem) {
+  .hk-figure .hk-mark {
+    position: absolute;
+    right: calc(100% + 3rem);
+    top: 0.35rem;
+  }
+}
+
+@media (max-width: 67.99rem) {
+  .hk-figure {
+    height: auto;
+    margin-bottom: 1.25rem;
+  }
+
+  .hk-mark {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+}
+
+/* The mark is decoration for a section that is already spelled out in words,
+ * so it should not compete when someone has asked for less motion or more
+ * contrast. */
+@media (prefers-contrast: more) {
+  .hk-mark {
+    display: none;
+  }
+}

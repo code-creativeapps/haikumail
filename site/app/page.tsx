@@ -2,6 +2,17 @@ import Link from 'next/link'
 import { Footer, Header } from '@/components/Chrome'
 import { HaikuStage } from '@/components/HaikuStage'
 import { InstallButton, InstallNote } from '@/components/InstallButton'
+import {
+  MarkApp,
+  MarkDoor,
+  MarkKinds,
+  MarkPoem,
+  MarkReading,
+  MarkSealed,
+  MarkSearch,
+  MarkTab,
+  MarkWait,
+} from '@/components/Marks'
 import { JsonLd } from '@/components/JsonLd'
 import { Waitlist } from '@/components/Waitlist'
 import { FAQ } from '@/lib/faq'
@@ -85,6 +96,7 @@ export default function Home() {
 
         {/* 3 — The wait. */}
         <section id="how" className="hk-shell hk-section hk-narrow">
+          <figure className="hk-figure"><MarkWait /></figure>
           <h2>Thirty seconds, first</h2>
           <p>
             Open Gmail and you get a poem instead, one line at a time, and a small grey
@@ -105,6 +117,7 @@ export default function Home() {
 
         {/* 4 — Search only. */}
         <section className="hk-shell hk-section hk-narrow">
+          <figure className="hk-figure"><MarkSearch /></figure>
           <h2>Then: nothing, until you ask</h2>
           <p>
             No list. No unread count. No bold senders arranged to be glanced at. Just a
@@ -120,6 +133,7 @@ export default function Home() {
 
         {/* 5 — Browse. */}
         <section className="hk-shell hk-section hk-narrow">
+          <figure className="hk-figure"><MarkKinds /></figure>
           <h2>Or read by kind</h2>
           <p>
             Sometimes you don&rsquo;t have a search term, you have a mood. Browse gives
@@ -135,6 +149,7 @@ export default function Home() {
 
         {/* 6 — Reading. */}
         <section className="hk-shell hk-section hk-narrow">
+          <figure className="hk-figure"><MarkReading /></figure>
           <h2>Reading a message</h2>
           <p>
             Two views. <strong>Plain</strong> rebuilds the message as text, with the
@@ -150,6 +165,7 @@ export default function Home() {
 
         {/* 7 — The escape hatch. Honesty as conversion. */}
         <section className="hk-shell hk-section hk-narrow">
+          <figure className="hk-figure"><MarkDoor /></figure>
           <h2>It isn&rsquo;t a prison</h2>
           <p>
             One link drops the mask and gives you the real Gmail for that tab, for when
@@ -164,6 +180,7 @@ export default function Home() {
 
         {/* 8 — The tab. */}
         <section className="hk-shell hk-section hk-narrow">
+          <figure className="hk-figure"><MarkTab /></figure>
           <h2>The tab stops being a notification</h2>
           <p>
             Gmail writes your unread count into the tab title and the favicon, which is
@@ -175,6 +192,7 @@ export default function Home() {
 
         {/* 9 — The strongest section, and the highest-intent moment on the page. */}
         <section className="hk-shell hk-section hk-narrow">
+          <figure className="hk-figure"><MarkSealed /></figure>
           <h2>Nothing leaves your browser</h2>
           <p>
             HaikuMail has no server. It makes no network requests. It asks for no account,
@@ -206,6 +224,7 @@ export default function Home() {
 
         {/* 10 — The poems. */}
         <section className="hk-shell hk-section hk-narrow">
+          <figure className="hk-figure"><MarkPoem /></figure>
           <h2>About the poems</h2>
           <p>
             There are {ORIGINALS.length + TRANSLATIONS.length} of them, and you get a
@@ -244,6 +263,7 @@ export default function Home() {
             this point is being withheld, and the copy has to keep saying so. */}
         <section id="the-app" className="hk-shell hk-section hk-narrow hk-later">
           <p className="hk-eyebrow">Coming soon</p>
+          <figure className="hk-figure"><MarkApp /></figure>
           <h2>The app</h2>
           <p>
             Everything above is the free extension, and it stays free. This is the other
