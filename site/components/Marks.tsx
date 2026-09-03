@@ -96,13 +96,14 @@ export const MarkDoor = () => (
   </Frame>
 )
 
-/** The tab: the badge that used to sit on it, struck out. */
+/** The tab: a favicon, and the badge that used to sit beside it, struck out. */
 export const MarkTab = () => (
   <Frame>
-    <rect x="12" y="20" width="36" height="15" rx="4" stroke="var(--hk-ink-soft)" {...S} />
-    <rect x="12" y="35" width="72" height="41" rx="5" stroke="var(--hk-ink-soft)" {...S} />
-    <circle cx="55" cy="27" r="8" stroke="var(--hk-line-strong)" {...S} />
-    <path d="m49 33 12-12" stroke="var(--hk-accent)" {...S} strokeWidth={3} />
+    <rect x="12" y="18" width="46" height="18" rx="4" stroke="var(--hk-ink-soft)" {...S} />
+    <rect x="12" y="36" width="72" height="42" rx="5" stroke="var(--hk-ink-soft)" {...S} />
+    <rect x="19" y="23.5" width="8" height="8" rx="2" stroke="var(--hk-ink-soft)" {...S} />
+    <circle cx="46" cy="27" r="6" stroke="var(--hk-line-strong)" {...S} />
+    <path d="m41.5 31.5 9-9" stroke="var(--hk-accent)" {...S} strokeWidth={3} />
   </Frame>
 )
 
