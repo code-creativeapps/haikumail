@@ -1000,14 +1000,14 @@ a {
  * banner would be arguing against the pitch. */
 .hk-demo {
   margin: 2rem auto 0;
-  max-width: 44rem;
+  max-width: 38rem;
 }
 
 .hk-demo-video {
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 1200 / 760;
+  aspect-ratio: 900 / 600;
   border: 1px solid var(--hk-line);
   border-radius: 14px;
   background: var(--hk-raise);

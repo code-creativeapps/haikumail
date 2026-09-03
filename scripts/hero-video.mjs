@@ -20,7 +20,7 @@ import { fileURLToPath } from 'node:url'
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const OUT = join(ROOT, 'site/public/video')
 const TMP = join(ROOT, '.hero-tmp')
-const SIZE = { width: 1200, height: 760 }
+const SIZE = { width: 900, height: 600 }
 
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css' }
 const server = createServer(async (req, res) => {
