@@ -96,8 +96,8 @@ export default function Home() {
 
         {/* 3 — The wait. */}
         <section id="how" className="hk-shell hk-section hk-narrow">
-          <figure className="hk-figure"><MarkWait /></figure>
           <h2>Thirty seconds, first</h2>
+          <figure className="hk-figure"><MarkWait /></figure>
           <p>
             Open Gmail and you get a poem instead, one line at a time, and a small grey
             number counting down. Every control is locked until it reaches zero. The
@@ -117,8 +117,8 @@ export default function Home() {
 
         {/* 4 — Search only. */}
         <section className="hk-shell hk-section hk-narrow">
-          <figure className="hk-figure"><MarkSearch /></figure>
           <h2>Then: nothing, until you ask</h2>
+          <figure className="hk-figure"><MarkSearch /></figure>
           <p>
             No list. No unread count. No bold senders arranged to be glanced at. Just a
             search field, and whatever you came for.
@@ -133,8 +133,8 @@ export default function Home() {
 
         {/* 5 — Browse. */}
         <section className="hk-shell hk-section hk-narrow">
-          <figure className="hk-figure"><MarkKinds /></figure>
           <h2>Or read by kind</h2>
+          <figure className="hk-figure"><MarkKinds /></figure>
           <p>
             Sometimes you don&rsquo;t have a search term, you have a mood. Browse gives
             you the categories you&rsquo;d have made yourself — favourites, the people you
@@ -149,8 +149,8 @@ export default function Home() {
 
         {/* 6 — Reading. */}
         <section className="hk-shell hk-section hk-narrow">
-          <figure className="hk-figure"><MarkReading /></figure>
           <h2>Reading a message</h2>
+          <figure className="hk-figure"><MarkReading /></figure>
           <p>
             Two views. <strong>Plain</strong> rebuilds the message as text, with the
             quoted history dropped. <strong>Original</strong> shows the sender&rsquo;s
@@ -165,8 +165,8 @@ export default function Home() {
 
         {/* 7 — The escape hatch. Honesty as conversion. */}
         <section className="hk-shell hk-section hk-narrow">
-          <figure className="hk-figure"><MarkDoor /></figure>
           <h2>It isn&rsquo;t a prison</h2>
+          <figure className="hk-figure"><MarkDoor /></figure>
           <p>
             One link drops the mask and gives you the real Gmail for that tab, for when
             you genuinely need to compose something or dig through a thread. A small mark
@@ -180,8 +180,8 @@ export default function Home() {
 
         {/* 8 — The tab. */}
         <section className="hk-shell hk-section hk-narrow">
-          <figure className="hk-figure"><MarkTab /></figure>
           <h2>The tab stops being a notification</h2>
+          <figure className="hk-figure"><MarkTab /></figure>
           <p>
             Gmail writes your unread count into the tab title and the favicon, which is
             how an inbox reaches you from across the room while you are doing something
@@ -192,8 +192,8 @@ export default function Home() {
 
         {/* 9 — The strongest section, and the highest-intent moment on the page. */}
         <section className="hk-shell hk-section hk-narrow">
-          <figure className="hk-figure"><MarkSealed /></figure>
           <h2>Nothing leaves your browser</h2>
+          <figure className="hk-figure"><MarkSealed /></figure>
           <p>
             HaikuMail has no server. It makes no network requests. It asks for no account,
             shows no OAuth screen, and holds no API key — because it never asks Google for
@@ -224,8 +224,8 @@ export default function Home() {
 
         {/* 10 — The poems. */}
         <section className="hk-shell hk-section hk-narrow">
-          <figure className="hk-figure"><MarkPoem /></figure>
           <h2>About the poems</h2>
+          <figure className="hk-figure"><MarkPoem /></figure>
           <p>
             There are {ORIGINALS.length + TRANSLATIONS.length} of them, and you get a
             different one each time. {ORIGINALS.length} were written for this extension.
@@ -263,8 +263,8 @@ export default function Home() {
             this point is being withheld, and the copy has to keep saying so. */}
         <section id="the-app" className="hk-shell hk-section hk-narrow hk-later">
           <p className="hk-eyebrow">Coming soon</p>
-          <figure className="hk-figure"><MarkApp /></figure>
           <h2>The app</h2>
+          <figure className="hk-figure"><MarkApp /></figure>
           <p>
             Everything above is the free extension, and it stays free. This is the other
             thing — a hosted HaikuMail, for the three places an extension cannot go.
