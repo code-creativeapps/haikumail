@@ -9,6 +9,7 @@ export function Header() {
         <Lockup />
       </Link>
       <nav className="hk-nav">
+        <Link href="/#the-app">The app</Link>
         <Link href="/notes">Notes</Link>
         <Link href="/haiku">Haiku</Link>
         <a href={REPO_URL} rel="noopener">
@@ -28,7 +29,8 @@ export function Footer() {
           <Link href="/haiku">The haiku</Link>
         </li>
         <li>
-          <Link href="/notes">Notes</Link>
+          <Link href="/#the-app">The app</Link>
+        <Link href="/notes">Notes</Link>
         </li>
         <li>
           <Link href="/privacy">Privacy</Link>

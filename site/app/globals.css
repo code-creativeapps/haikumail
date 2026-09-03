@@ -442,8 +442,8 @@ a {
   display: inline-block;
   padding: 0.8125rem 1.5rem;
   border-radius: 10px;
-  background: var(--hk-accent-strong);
-  color: var(--hk-mark-ink);
+  background: var(--hk-accent-strong, #46596b);
+  color: var(--hk-mark-ink, #f7f5f1);
   font-size: 0.9375rem;
   font-weight: 500;
   letter-spacing: 0.005em;
@@ -612,8 +612,8 @@ a {
   padding: 0.75rem 1.25rem;
   border: 0;
   border-radius: 10px;
-  background: var(--hk-accent-strong);
-  color: var(--hk-mark-ink);
+  background: var(--hk-accent-strong, #46596b);
+  color: var(--hk-mark-ink, #f7f5f1);
   font: inherit;
   font-size: 0.9375rem;
   font-weight: 500;
@@ -803,4 +803,93 @@ a {
   margin-top: 2.5rem;
   padding-top: 2rem;
   border-top: 1px solid var(--hk-line);
+}
+
+/* The teaser under the hero. Kept deliberately quiet — it sits above the
+ * install button in the reading order and must not compete with it. */
+.hk-teaser {
+  display: flex;
+  align-items: baseline;
+  gap: 0.875rem;
+  margin: 0 auto;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--hk-line);
+  border-radius: 12px;
+  background: var(--hk-raise);
+}
+
+.hk-teaser p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--hk-ink-2);
+}
+
+.hk-teaser strong {
+  color: var(--hk-ink);
+  font-weight: 500;
+}
+
+.hk-teaser a {
+  white-space: nowrap;
+}
+
+.hk-teaser-tag,
+.hk-eyebrow {
+  flex-shrink: 0;
+  font-family: var(--hk-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--hk-accent);
+}
+
+.hk-teaser-tag {
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--hk-accent-ring);
+  border-radius: 999px;
+  background: var(--hk-accent-ring);
+}
+
+.hk-eyebrow {
+  display: block;
+  margin: 0 0 0.4rem;
+}
+
+.hk-later-list {
+  list-style: none;
+  margin: 1.5rem 0;
+  padding: 0;
+}
+
+.hk-later-list li {
+  position: relative;
+  margin: 0 0 0.9rem;
+  padding-left: 1.1rem;
+  line-height: 1.6;
+  color: var(--hk-ink-2);
+}
+
+.hk-later-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.72em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--hk-accent-quiet);
+}
+
+.hk-later-list strong {
+  color: var(--hk-ink);
+  font-weight: 500;
+}
+
+@media (max-width: 34rem) {
+  .hk-teaser {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }

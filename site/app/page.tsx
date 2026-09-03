@@ -57,6 +57,16 @@ export default function Home() {
           </a>
         </section>
 
+        {/* 1b — The coming app, teased once above the fold's edge. */}
+        <aside className="hk-shell hk-teaser">
+          <span className="hk-teaser-tag">Coming soon</span>
+          <p>
+            <strong>HaikuMail for any inbox — and for your phone.</strong> The extension
+            is Gmail on the desktop. The app is the rest of it.{' '}
+            <a href="#the-app">What it will do →</a>
+          </p>
+        </aside>
+
         {/* 2 — The problem, before the product. */}
         <section className="hk-shell hk-section hk-narrow">
           <p className="hk-big">
@@ -230,22 +240,37 @@ export default function Home() {
           </dl>
         </section>
 
-        {/* 12 — The waitlist. Once, below the fold, framed as scope not tier. */}
-        <section className="hk-shell hk-section hk-narrow hk-later">
-          <h2>Other inboxes, eventually</h2>
+        {/* 12 — The waitlist. Framed as scope rather than tier: nothing above
+            this point is being withheld, and the copy has to keep saying so. */}
+        <section id="the-app" className="hk-shell hk-section hk-narrow hk-later">
+          <p className="hk-eyebrow">Coming soon</p>
+          <h2>The app</h2>
           <p>
-            Everything above is the free extension. It stays free.
+            Everything above is the free extension, and it stays free. This is the other
+            thing — a hosted HaikuMail, for the three places an extension cannot go.
           </p>
+          <ul className="hk-later-list">
+            <li>
+              <strong>Your phone.</strong> Mobile browsers do not run extensions at all,
+              and the phone is where most of the compulsive checking actually happens.
+            </li>
+            <li>
+              <strong>Any inbox.</strong> Not only Gmail. The extension reads Gmail&rsquo;s
+              own page, so Gmail is all it can ever do.
+            </li>
+            <li>
+              <strong>An archive worth keeping.</strong> Years of mail read
+              sender-by-sender rather than message-by-message — the shape you actually
+              remember things in.
+            </li>
+            <li>
+              <strong>Tidying while you are not looking.</strong> The filing that never
+              happens, happening quietly in the background.
+            </li>
+          </ul>
           <p>
-            What it can&rsquo;t do is work on your phone, or on an inbox that isn&rsquo;t
-            Gmail, or remember anything while you&rsquo;re not looking. A hosted version
-            could — an archive you can read years back through, sender-by-sender rather
-            than message-by-message, and the tidying-up happening quietly in the
-            background instead of never.
-          </p>
-          <p>
-            It doesn&rsquo;t exist yet and there is no price. If you&rsquo;d like to know
-            when it does:
+            It does not exist yet and there is no price — so this is not a pre-order, and
+            there is nothing to be early for. One email, when there is something to say.
           </p>
           <Waitlist />
         </section>
