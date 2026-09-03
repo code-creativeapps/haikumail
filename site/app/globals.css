@@ -274,7 +274,7 @@ a {
   color: var(--hk-ink-soft);
 }
 
-.hk-prose a {
+.hk-prose a:not(.hk-install) {
   color: var(--hk-accent-strong);
   text-underline-offset: 0.16em;
   text-decoration-thickness: 1px;
@@ -537,7 +537,7 @@ a {
   padding: 0.1em 0.35em;
 }
 
-.hk-section a {
+.hk-section a:not(.hk-install) {
   color: var(--hk-accent-strong);
   text-underline-offset: 0.16em;
 }
