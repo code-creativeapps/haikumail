@@ -30,7 +30,9 @@ export function Footer() {
         </li>
         <li>
           <Link href="/#the-app">The app</Link>
-        <Link href="/notes">Notes</Link>
+        </li>
+        <li>
+          <Link href="/notes">Notes</Link>
         </li>
         <li>
           <Link href="/privacy">Privacy</Link>
