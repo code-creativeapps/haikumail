@@ -278,41 +278,44 @@ export default function Home() {
             <p className="hk-app-lede">
               The extension is Gmail, on a desktop, in Chrome. That is a real limit and
               no amount of work removes it — a page script cannot reach your phone, and
-              it cannot read an inbox that is not Gmail. The app is the version without
-              those walls.
+              the phone is where nearly all the checking happens. So the app is an
+              iPhone app, for Gmail, meant to replace the Gmail app rather than sit
+              beside it.
             </p>
 
             <ul className="hk-app-grid">
               <li>
                 <MarkPhone />
-                <h3>On your phone</h3>
+                <h3>Instead of the Gmail app</h3>
                 <p>
-                  Mobile browsers do not run extensions at all — and the phone is where
-                  most of the checking you would rather not do actually happens.
-                </p>
-              </li>
-              <li>
-                <MarkInboxes />
-                <h3>Any inbox</h3>
-                <p>
-                  Not only Gmail. Fastmail, Outlook, a work account on a domain nobody
-                  has heard of — the same thirty seconds in front of all of them.
-                </p>
-              </li>
-              <li>
-                <MarkArchive />
-                <h3>An archive that goes back</h3>
-                <p>
-                  Years of mail, read sender-by-sender rather than message-by-message —
-                  which is the shape you actually remember things in.
+                  Not a companion. The one you delete the other one for — which is a
+                  high bar, and the only one worth aiming at.
                 </p>
               </li>
               <li>
                 <MarkTidy />
-                <h3>Tidying while you are away</h3>
+                <h3>A few times a day</h3>
                 <p>
-                  The filing that never happens, happening quietly in the background
-                  instead of waiting for an afternoon you were never going to spend.
+                  Times you choose. Inside them, mail is simply there. Outside them, a
+                  poem holds the door for fifteen seconds — and the only notification you
+                  ever get is that a window has opened, never that mail arrived.
+                </p>
+              </li>
+              <li>
+                <MarkArchive />
+                <h3>An edition, not a list</h3>
+                <p>
+                  What deserves you first, even if it is four days old, and the rest
+                  gathered below in one line. It has an end. You can finish it.
+                </p>
+              </li>
+              <li>
+                <MarkInboxes />
+                <h3>Gmail first</h3>
+                <p>
+                  Only Gmail, on purpose, so it can be good at one thing before it is
+                  mediocre at four. Fastmail and Outlook are the argument for a second
+                  version, not a promise in this one.
                 </p>
               </li>
             </ul>
